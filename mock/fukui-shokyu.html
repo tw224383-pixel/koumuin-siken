@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>福井県Ⅱ種（地方初級）教養試験 模擬問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPMincho:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7F4; --sheet:#FFFFFF; --ink:#1E2227; --graphite:#555B63; --rule:#D9DBD6;
+  --omr:#C9414F; --omr-soft:#F6DDE0; --ok:#1C7466; --ok-soft:#DCEFEA; --ng:#B0452A; --ng-soft:#F5E1D9;
+  --serif:"BIZ UDPMincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#16191C; --sheet:#1F2327; --ink:#E8E9E6; --graphite:#A5AAB0; --rule:#343A40;
+    --omr:#E0707B; --omr-soft:#3A2327; --ok:#5DC2B0; --ok-soft:#1D3431; --ng:#E28A6E; --ng-soft:#3B2620;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16191C; --sheet:#1F2327; --ink:#E8E9E6; --graphite:#A5AAB0; --rule:#343A40;
+  --omr:#E0707B; --omr-soft:#3A2327; --ok:#5DC2B0; --ok-soft:#1D3431; --ng:#E28A6E; --ng-soft:#3B2620;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:5rem}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.7;font-size:16px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--omr);outline-offset:2px}
+img,svg{max-width:100%}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:var(--sheet);border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:1rem;padding:.6rem 1.2rem}
+.bar h1{font-size:.95rem;font-weight:500;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clock{font-variant-numeric:tabular-nums;font-size:1.6rem;font-weight:700;letter-spacing:.02em}
+.clock.low{color:var(--omr)}
+.progress{font-size:.85rem;color:var(--graphite);font-variant-numeric:tabular-nums}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:6px;padding:.45rem 1rem;cursor:pointer;font-weight:500}
+.btn.primary{background:var(--ink);color:var(--sheet)}
+.btn.warn{border-color:var(--omr);color:var(--omr)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* cover */
+.cover{max-width:40rem;margin:2.5rem auto;padding:2.5rem 2rem;background:var(--sheet);border:1px solid var(--rule)}
+.cover .kind{font-family:var(--serif);font-size:1rem;color:var(--graphite);margin:0}
+.cover h2{font-family:var(--serif);font-size:clamp(2.2rem,7vw,3.4rem);line-height:1.2;margin:.3rem 0 1.4rem;letter-spacing:.12em}
+.cover dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0 0 1.6rem;font-size:.95rem}
+.cover dt{color:var(--graphite)}
+.cover dd{margin:0;font-weight:500}
+.notice{border-top:2px solid var(--ink);padding-top:1rem;font-size:.92rem}
+.notice h3{font-size:.95rem;margin:0 0 .4rem}
+.notice ol{margin:0;padding-left:1.4rem}
+.cover .actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.8rem}
+.fine{font-size:.8rem;color:var(--graphite);margin-top:1.4rem}
+
+/* exam layout */
+.exam{display:grid;grid-template-columns:minmax(0,1fr) 17.5rem;gap:2rem;max-width:72rem;margin:0 auto;padding:1.5rem 1.2rem 6rem}
+.booklet{min-width:0}
+.sec-head{font-family:var(--serif);font-size:1.15rem;font-weight:700;margin:2.4rem 0 .6rem;padding-bottom:.3rem;border-bottom:2px solid var(--ink)}
+.sec-head:first-child{margin-top:0}
+.q{background:var(--sheet);border:1px solid var(--rule);padding:1.3rem 1.4rem 1.1rem;margin:0 0 1rem;max-width:46rem}
+.q-top{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.5rem}
+.q-no{font-family:var(--serif);font-weight:700;font-size:1.1rem;white-space:nowrap}
+.q-subj{font-size:.78rem;color:var(--graphite);border:1px solid var(--rule);border-radius:3px;padding:0 .4rem}
+.q-body{font-family:var(--serif);font-size:1.02rem;line-height:1.95}
+.q-body p{margin:.3rem 0}
+.passage{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:.7rem 0}
+.passage.en{font-family:Georgia,"Times New Roman",serif;line-height:1.8}
+.q-body table{border-collapse:collapse;margin:.6rem 0;font-family:var(--sans);font-size:.9rem;font-variant-numeric:tabular-nums}
+.q-body th,.q-body td{border:1px solid var(--rule);padding:.25rem .7rem;text-align:right}
+.q-body th{background:var(--paper);font-weight:500;text-align:center}
+.q-body td:first-child{text-align:left}
+.tbl{overflow-x:auto}
+.choices{list-style:none;margin:.8rem 0 0;padding:0;display:grid;gap:.25rem}
+.choices label{display:grid;grid-template-columns:2rem 1fr;align-items:start;gap:.3rem;padding:.35rem .5rem;border-radius:4px;cursor:pointer;font-family:var(--serif)}
+.choices label:hover{background:var(--paper)}
+.choices input{position:absolute;opacity:0;pointer-events:none}
+.bubble{width:1.55rem;height:1.55rem;border:1.5px solid var(--omr);border-radius:50%;display:grid;place-items:center;
+  font-family:var(--sans);font-size:.8rem;color:var(--omr);margin-top:.15rem;transition:background .12s}
+.choices input:checked + .bubble{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.choices input:focus-visible + .bubble{outline:3px solid var(--omr);outline-offset:2px}
+.choices input:checked ~ .ctext{font-weight:700}
+.q.graded .choices label{cursor:default}
+.q.graded .choices label.is-correct{background:var(--ok-soft)}
+.q.graded .choices label.is-wrong{background:var(--ng-soft)}
+.verdict{margin-top:.8rem;padding:.7rem .9rem;border-left:4px solid var(--ok);background:var(--paper);font-size:.92rem}
+.verdict.ng{border-color:var(--ng)}
+.verdict strong{display:block;margin-bottom:.2rem}
+
+/* mark sheet */
+.sheet{position:sticky;top:4.4rem;align-self:start;background:var(--sheet);border:1px solid var(--omr);padding:.9rem .8rem 1rem;max-height:calc(100vh - 5.4rem);overflow:auto}
+.sheet-title{font-size:.85rem;color:var(--omr);font-weight:700;margin:0 0 .5rem;display:flex;justify-content:space-between}
+.rows{display:grid;grid-template-columns:1fr 1fr;gap:0 .6rem}
+.row{display:grid;grid-template-columns:1.7rem repeat(5,1fr);align-items:center;gap:2px;padding:1px 0;border-bottom:1px dotted var(--omr-soft)}
+.row a{font-size:.72rem;color:var(--omr);text-decoration:none;text-align:right;padding-right:3px;font-variant-numeric:tabular-nums}
+.dot{width:.95rem;height:.95rem;border:1px solid var(--omr);border-radius:50%;margin:auto;padding:0;background:transparent;cursor:pointer}
+.dot.on{background:var(--ink);border-color:var(--ink)}
+.dot.c{box-shadow:0 0 0 2px var(--ok)}
+.dot.x{background:var(--ng);border-color:var(--ng)}
+.sheet .btn{width:100%;margin-top:.8rem}
+.sheet-toggle{display:none}
+
+/* results */
+.result{max-width:46rem;background:var(--sheet);border:1px solid var(--rule);padding:1.6rem 1.6rem 1.4rem;margin-bottom:1.6rem}
+.score{font-family:var(--serif);font-size:3.2rem;font-weight:700;line-height:1;margin:.2rem 0 .3rem;font-variant-numeric:tabular-nums}
+.score small{font-size:1.1rem;color:var(--graphite);font-weight:400}
+.breakdown{display:grid;gap:.45rem;margin:1.2rem 0}
+.bd{display:grid;grid-template-columns:8.5rem 1fr 3.4rem;align-items:center;gap:.6rem;font-size:.88rem}
+.track{height:.6rem;background:var(--paper);border:1px solid var(--rule)}
+.fill{height:100%;background:var(--ok)}
+.bd span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.filter{display:flex;gap:.6rem;flex-wrap:wrap}
+.hidden{display:none!important}
+
+@media (max-width: 860px){
+  .exam{grid-template-columns:minmax(0,1fr);padding-bottom:7rem}
+  .sheet{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:65vh;border-width:1px 0 0;z-index:30;transform:translateY(100%);transition:transform .2s}
+  .sheet.open{transform:none}
+  .sheet-toggle{display:block;position:fixed;right:1rem;bottom:1rem;z-index:31;border:1.5px solid var(--omr);background:var(--sheet);color:var(--omr);border-radius:999px;padding:.6rem 1.1rem;font-weight:700}
+  .bar h1{display:none}
+  .q{padding:1.1rem 1rem}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+@media print{
+  .bar,.sheet,.sheet-toggle,.result .filter,.cover .actions{display:none!important}
+  body{background:#fff;color:#000}
+  .exam{display:block;padding:0}
+  .q{break-inside:avoid;border:none;border-bottom:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<header class="bar" id="bar">
+  <h1>福井県職員採用Ⅱ種（高校卒業程度）教養試験 模擬問題</h1>
+  <span class="progress" id="progress">解答 0 / 50</span>
+  <span class="clock" id="clock" aria-live="off">120:00</span>
+</header>
+
+<main>
+  <section class="cover" id="cover">
+    <p class="kind">福井県職員採用Ⅱ種（一般枠）・小中学校事務 想定</p>
+    <h2>教養試験<br>模擬問題</h2>
+    <dl>
+      <dt>試験時間</dt><dd>120分</dd>
+      <dt>問題数</dt><dd>50問（全問必須解答・五肢択一）</dd>
+      <dt>程度</dt><dd>高校卒業程度（地方初級）</dd>
+      <dt>構成</dt><dd>一般知識20問（社会・人文・自然）／一般知能30問（文章理解・判断推理・数的推理・資料解釈）</dd>
+    </dl>
+    <div class="notice">
+      <h3>注意事項</h3>
+      <ol>
+        <li>「試験開始」を押すと120分のカウントダウンが始まります。時間になると自動で採点されます。</li>
+        <li>各問題について、正答と思うものを1つ選んでください。右側のマークシートからも解答できます。</li>
+        <li>計算用紙と筆記用具を手元に用意してください。電卓は使用しないでください。</li>
+        <li>解答はこのブラウザに自動保存されます。途中でページを閉じても、続きから再開できます。</li>
+      </ol>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="startBtn">試験開始</button>
+      <button class="btn hidden" id="resumeBtn">続きから再開</button>
+      <button class="btn" id="printBtn">問題を印刷</button>
+    </div>
+    <p class="fine">福井県の教養試験問題は例題以外は公開されていないため、地方初級（高卒程度）の標準的な出題構成・難易度に準拠し、福井県に関連する題材を一部に取り入れて作成したオリジナル問題です。資料解釈の数値は架空のデータです。</p>
+  </section>
+
+  <div class="exam hidden" id="exam">
+    <div class="booklet">
+      <div class="result hidden" id="result"></div>
+      <div id="questions"></div>
+    </div>
+    <aside class="sheet" id="sheet" aria-label="マークシート">
+      <p class="sheet-title"><span>解答用紙</span><span id="sheetCount">0/50</span></p>
+      <div class="rows" id="rows"></div>
+      <button class="btn primary" id="submitBtn">解答を終了して採点する</button>
+      <button class="btn hidden" id="retryBtn">最初からやり直す</button>
+    </aside>
+    <button class="sheet-toggle" id="sheetToggle" aria-controls="sheet" aria-expanded="false">解答用紙</button>
+  </div>
+</main>
+
+<script>
+const Q = [
+/* ===== 社会科学 ===== */
+{g:"社会科学",s:"政治",q:`<p>日本国憲法に規定する基本的人権に関する記述として、妥当なのはどれか。</p>`,
+c:["生存権は自由権に分類され、国家からの干渉を排除することを内容とする権利である。",
+"請願権は、日本国民に限らず、何人にも保障されている。",
+"勤労は国民の権利とされているが、国民の義務とはされていない。",
+"財産権は侵してはならない権利であり、公共の福祉による制限を受けることはない。",
+"選挙権は、憲法上、満18歳以上の国民に保障すると明記されている。"],a:2,
+e:"憲法16条は「何人も」請願する権利を有すると定めています。1 生存権（25条）は社会権。3 27条で勤労は権利かつ義務。4 29条2項により財産権の内容は公共の福祉に適合するよう法律で定められます。5 憲法は「成年者による普通選挙」を保障するのみで、18歳は公職選挙法の規定です。"},
+
+{g:"社会科学",s:"政治",q:`<p>日本の国会に関する記述として、妥当なのはどれか。</p>`,
+c:["衆議院議員の任期は6年で、3年ごとに半数が改選される。",
+"条約の承認については、必ず衆議院に先に提出しなければならない。",
+"内閣総理大臣は、国会議員の中から天皇が指名する。",
+"予算は、先に衆議院に提出しなければならない。",
+"衆議院で可決し参議院で否決した法律案は、衆議院で出席議員の過半数で再び可決すれば法律となる。"],a:4,
+e:"予算先議権は衆議院にあります（60条1項）。1 は参議院の説明。2 条約の承認に衆議院の先議は必要ありません。3 国会が指名し、天皇が任命します。5 再可決には出席議員の3分の2以上の多数が必要です（59条2項）。"},
+
+{g:"社会科学",s:"政治（地方自治）",q:`<p>日本の地方自治に関する記述として、妥当なのはどれか。</p>`,
+c:["都道府県知事や市町村長は、議会の議員の中から議会によって選ばれる。",
+"議会の解散請求は、有権者の署名を集めて首長に対して行う。",
+"地方公共団体の議会は、国会と同様に二院制をとっている。",
+"首長は、議会から不信任の議決を受けた場合、議会を解散することはできない。",
+"住民は、有権者の50分の1以上の署名を集めて、首長に条例の制定・改廃を請求することができる。"],a:5,
+e:"条例の制定・改廃請求（イニシアティブ）は有権者の50分の1以上の署名で首長に行います。1 首長は住民の直接選挙。2 解散請求は原則3分の1以上の署名で選挙管理委員会に行います。3 議会は一院制。4 不信任議決の通知から10日以内に議会を解散できます。"},
+
+{g:"社会科学",s:"経済",q:`<p>ある財の市場において、縦軸に価格、横軸に数量をとった需要曲線・供給曲線を考える。他の条件が一定であるとき、次の記述のうち妥当なのはどれか。ただし、この財は所得が増えると需要が増える財であるとする。</p>`,
+c:["消費者の所得が増加すると、需要曲線が右にシフトし、均衡価格は上昇する。",
+"原材料の価格が上昇すると、供給曲線が右にシフトし、均衡価格は下落する。",
+"価格が均衡価格より高いとき、市場では超過需要が生じている。",
+"この財と代替関係にある財の価格が下落すると、この財の需要曲線は右にシフトする。",
+"技術革新によって生産費用が下がると、供給曲線が左にシフトし、均衡価格は上昇する。"],a:1,
+e:"所得増加で需要曲線は右シフトし、均衡価格は上昇します。2 費用上昇で供給曲線は左シフト。3 均衡価格より高いと超過供給。4 代替財が安くなると、この財の需要は減り左シフト。5 費用低下で供給曲線は右シフトし価格は下落します。"},
+
+{g:"社会科学",s:"経済",q:`<p>日本銀行と金融政策に関する記述として、妥当なのはどれか。</p>`,
+c:["日本銀行は政府の銀行として、発行される国債を直接引き受けることが原則として認められている。",
+"日本銀行は、一般の個人や企業から預金を受け入れ、貸出しを行っている。",
+"景気が過熱しているとき、日本銀行は国債などを売却する売りオペレーションを行い、市場の資金量を減らそうとする。",
+"日本の紙幣は政府が発行し、硬貨は日本銀行が発行している。",
+"管理通貨制度の下では、通貨の発行量は中央銀行が保有する金の量によって制約される。"],a:3,
+e:"景気過熱時は売りオペで資金を吸収します。1 財政法5条により国債の日銀引受けは原則禁止。2 日銀は「銀行の銀行」で、個人とは取引しません。4 紙幣（日本銀行券）は日銀、硬貨は政府が発行。5 金の保有量に制約されるのは金本位制です。"},
+
+{g:"社会科学",s:"社会（労働）",q:`<p>日本の労働に関する記述として、妥当なのはどれか。</p>`,
+c:["労働三法とは、労働基準法、労働組合法、最低賃金法の三つをいう。",
+"公務員には、民間の労働者と同様に、すべて争議権が認められている。",
+"最低賃金は全国一律に定められており、都道府県による差はない。",
+"労働基準法は、労働時間を原則として1日8時間、1週40時間以内と定めている。",
+"労働組合法は、使用者が、労働者が組合員であることを理由に不利益な取扱いをすることを認めている。"],a:4,
+e:"労働基準法32条の内容です。1 三法の残り一つは労働関係調整法。2 公務員の争議行為は法律で禁止されています。3 地域別最低賃金として都道府県ごとに定められます。5 組合員であることを理由とする不利益取扱いは不当労働行為として禁止されています。"},
+
+{g:"社会科学",s:"社会（社会保障）",q:`<p>日本の社会保障制度に関する記述として、妥当なのはどれか。</p>`,
+c:["公的扶助の中心である生活保護の費用は、主に加入者が納める保険料によって賄われている。",
+"国民年金は、日本国内に住所がある20歳以上60歳未満の人のうち、日本国籍を有する人のみが加入の対象となる。",
+"介護保険制度では、40歳以上の人が被保険者として保険料を納める。",
+"後期高齢者医療制度は、65歳以上のすべての人を対象としている。",
+"雇用保険は、社会保障制度の四つの柱のうち、社会福祉に分類される。"],a:3,
+e:"介護保険は40〜64歳が第2号、65歳以上が第1号被保険者です。1 生活保護は公費（税金）で賄われます。2 国民年金に国籍要件はありません。4 対象は原則75歳以上。5 雇用保険は社会保険です。"},
+
+/* ===== 人文科学 ===== */
+{g:"人文科学",s:"日本史",q:`<p>鎌倉時代から室町時代の出来事に関する記述として、妥当なのはどれか。</p>`,
+c:["御成敗式目は、鎌倉幕府3代将軍の源実朝によって制定された。",
+"元寇の後、幕府は御家人に十分な恩賞を与えたため、幕府の支配はいっそう安定した。",
+"室町幕府3代将軍の足利義満は、明との交易を禁じ、鎖国政策をとった。",
+"応仁の乱は、江戸幕府の将軍の後継者をめぐる争いなどをきっかけに起こった。",
+"承久の乱の後、鎌倉幕府は京都に六波羅探題を設置し、朝廷の監視などに当たらせた。"],a:5,
+e:"承久の乱（1221年）後に六波羅探題が置かれました。1 御成敗式目（1232年）は執権北条泰時が制定。2 恩賞が不十分で御家人の不満が高まりました。3 義満は日明貿易（勘合貿易）を始めました。4 応仁の乱は室町幕府8代将軍足利義政の後継問題などが原因です。"},
+
+{g:"人文科学",s:"日本史",q:`<p>明治時代初期の政策に関する記述として、妥当なのはどれか。</p>`,
+c:["廃藩置県により、旧藩主はそのまま知藩事として領地の支配を続けた。",
+"地租改正により、地租は収穫高に応じて米で納めることとなった。",
+"徴兵令により、満20歳以上の男女に兵役の義務が課された。",
+"五箇条の御誓文は、福井藩出身の由利公正が起草した原案をもとに作成された。",
+"大日本帝国憲法は、イギリスの憲法を手本とし、国民主権の原則を定めた。"],a:4,
+e:"五箇条の御誓文は、福井藩士由利公正（三岡八郎）の原案を福岡孝弟・木戸孝允らが修正して作成されました。1 廃藩置県で知藩事は罷免され、府知事・県令が派遣されました。2 地価の3％を金納。3 対象は満20歳の男子。5 プロイセン（ドイツ）憲法を参考にし、天皇主権を定めました。"},
+
+{g:"人文科学",s:"世界史",q:`<p>15〜16世紀のヨーロッパに関する記述として、妥当なのはどれか。</p>`,
+c:["コロンブスは、ポルトガル王の支援を受けてアフリカ南端を回り、インドに到達した。",
+"ルターは、ローマ教皇による贖宥状（免罪符）の販売を支持し、カトリック教会の権威を強めた。",
+"マゼランが率いた船隊は、マゼラン本人は途中で死亡したものの、世界周航を達成した。",
+"ルネサンスは、16世紀のドイツで始まり、その後イタリアに広まった。",
+"グーテンベルクは羅針盤を実用化し、遠洋航海を可能にした。"],a:3,
+e:"マゼランはフィリピンで戦死しましたが、残った船隊が世界周航を果たしました。1 コロンブスはスペインの支援で西インド諸島に到達。アフリカ南端経由でインドに達したのはヴァスコ＝ダ＝ガマ。2 ルターは贖宥状販売を批判しました。4 ルネサンスは14世紀のイタリアで始まりました。5 グーテンベルクは活版印刷術を改良しました。"},
+
+{g:"人文科学",s:"世界史",q:`<p>20世紀の国際社会に関する記述として、妥当なのはどれか。</p>`,
+c:["世界恐慌は、1929年にロンドンの株式市場で株価が暴落したことから始まった。",
+"第一次世界大戦後、アメリカ大統領ウィルソンの提唱により国際連盟が設立されたが、アメリカは加盟しなかった。",
+"ニューディール政策は、世界恐慌に対応するためにイギリスが実施した政策である。",
+"国際連合の安全保障理事会の常任理事国は、アメリカ、イギリス、フランス、ドイツ、日本の5か国である。",
+"1961年、冷戦終結の象徴としてベルリンの壁が崩壊した。"],a:2,
+e:"国際連盟はウィルソンの十四か条の平和原則を基に設立されましたが、アメリカは上院の反対で加盟しませんでした。1 ニューヨークのウォール街が発端。3 アメリカのF.ローズヴェルト政権の政策。4 常任理事国はアメリカ、イギリス、フランス、ロシア、中国。5 1961年は壁の建設、崩壊は1989年です。"},
+
+{g:"人文科学",s:"地理",q:`<p>日本の地形や気候に関する記述として、妥当なのはどれか。</p>`,
+c:["若狭湾の沿岸には、山地が沈水して形成された、入り江の多いリアス海岸が見られる。",
+"日本海側の冬の多量の降雪は、主に南東からの季節風によってもたらされる。",
+"扇状地の扇央は水が得やすいため、古くから水田として利用されてきた。",
+"三角州は、河川の上流の山間部に土砂が堆積して形成される地形である。",
+"フォッサマグナの西縁は、新潟県糸魚川市と福井県敦賀市を結ぶ線である。"],a:1,
+e:"若狭湾沿岸は代表的なリアス海岸です。2 冬の日本海側の降雪は北西季節風による。3 扇央は水はけがよく水が得にくいため、果樹園や桑畑に利用されてきました。4 三角州は河口付近に形成。5 フォッサマグナの西縁は糸魚川－静岡構造線です。"},
+
+{g:"人文科学",s:"地理",q:`<p>世界の気候に関する記述として、妥当なのはどれか。</p>`,
+c:["地中海性気候は、夏に降水量が多く、冬は乾燥する。",
+"ステップ気候は、年間を通して降水量が多く、密林が発達する。",
+"ツンドラ気候は、最暖月の平均気温が10℃以上となり、針葉樹林が広がる。",
+"サバナ気候は、一年中乾燥しており、植生はほとんど見られない。",
+"熱帯雨林気候は、年中高温で降水量が多く、明瞭な乾季がない。"],a:5,
+e:"熱帯雨林気候（Af）の説明として妥当です。1 地中海性気候は夏に乾燥し冬に雨が多い。2 ステップ気候は乾燥帯で短草草原。3 ツンドラ気候は最暖月0〜10℃で、コケ類・地衣類が中心。4 サバナ気候は雨季と乾季があり、長草草原に樹木が点在します。"},
+
+{g:"人文科学",s:"国語",q:`<p>下線部のカタカナを漢字に直したものとして、正しいのはどれか。</p>`,
+c:["混乱した事態を<u>シュウシュウ</u>する。 ― 収集",
+"<u>イガイ</u>な結果に驚く。 ― 以外",
+"事故の責任を<u>ツイキュウ</u>する。 ― 追究",
+"規制を<u>カンワ</u>する。 ― 緩和",
+"<u>ユウシュウ</u>の美を飾る。 ― 優秀"],a:4,
+e:"「緩和」が正しい表記です。1 収拾、2 意外、3 追及（責任を問いただす場合）、5 有終 が正しい表記です。"},
+
+{g:"人文科学",s:"国語",q:`<p>慣用句の意味の説明として、正しいのはどれか。</p>`,
+c:["情けは人のためならず ― 人に情けをかけると、その人を甘やかすことになり、本人のためにならない。",
+"気が置けない ― 遠慮や気遣いをする必要がなく、気楽につきあえる。",
+"役不足 ― その人の力量に対して、与えられた役目が重すぎる。",
+"流れに棹さす ― 時流に逆らって、物事の進行を妨げる。",
+"煮え湯を飲まされる ― 他人の失敗によって、思いがけない利益を得る。"],a:2,
+e:"「気が置けない」は気遣い不要で打ち解けられるという意味です。1 人に親切にすれば、巡り巡って自分に返ってくるという意味。3 力量に比べて役目が軽すぎること。4 流れに乗って勢いを増すこと。5 信頼していた人に裏切られること。"},
+
+/* ===== 自然科学 ===== */
+{g:"自然科学",s:"数学",q:`<p>2次関数 <i>y</i> ＝ <i>x</i><sup>2</sup> − 4<i>x</i> ＋ 1 の、0 ≦ <i>x</i> ≦ 5 における最大値と最小値の和はいくらか。</p>`,
+c:["−2","1","3","4","6"],a:3,
+e:"y＝(x−2)²−3 より、最小値は x＝2 のとき −3。区間の端で軸から遠い x＝5 のとき最大値 25−20＋1＝6。和は 6＋(−3)＝3。"},
+
+{g:"自然科学",s:"物理",q:`<p>静止していた物体が、一直線上を一定の加速度 2.0 m/s<sup>2</sup> で動き始めた。動き始めてから 5.0 秒後の物体の速さと、その間に移動した距離の組合せとして正しいのはどれか。</p>`,
+c:["10 m/s ・ 25 m","10 m/s ・ 50 m","5.0 m/s ・ 25 m","20 m/s ・ 25 m","20 m/s ・ 50 m"],a:1,
+e:"v＝at＝2.0×5.0＝10 m/s、x＝½at²＝½×2.0×5.0²＝25 m。"},
+
+{g:"自然科学",s:"化学",q:`<p>水 H<sub>2</sub>O 36 g の物質量と、その中に含まれる水素原子の数の組合せとして正しいのはどれか。ただし、原子量は H＝1.0、O＝16、アボガドロ定数は 6.0×10<sup>23</sup>/mol とする。</p>`,
+c:["1.0 mol ・ 1.2×10<sup>24</sup> 個","2.0 mol ・ 1.2×10<sup>24</sup> 個","2.0 mol ・ 6.0×10<sup>23</sup> 個","4.0 mol ・ 2.4×10<sup>24</sup> 個","2.0 mol ・ 2.4×10<sup>24</sup> 個"],a:5,
+e:"H₂O のモル質量は 18 g/mol なので 36÷18＝2.0 mol。水分子1個に水素原子は2個なので、水素原子は 4.0 mol、4.0×6.0×10²³＝2.4×10²⁴ 個。"},
+
+{g:"自然科学",s:"生物",q:`<p>細胞や遺伝子に関する記述として、妥当なのはどれか。</p>`,
+c:["DNA は2本のヌクレオチド鎖からなり、塩基はアデニンとチミン、グアニンとシトシンがそれぞれ対をつくる。",
+"DNA を構成する塩基は、アデニン、ウラシル、グアニン、シトシンの4種類である。",
+"RNA は通常、2本の鎖が結合した二重らせん構造をとっている。",
+"原核細胞は、核膜で囲まれた核をもっている。",
+"ミトコンドリアは、光エネルギーを利用して有機物を合成する細胞小器官である。"],a:1,
+e:"DNA は二重らせん構造で、A－T、G－C が相補的に結合します。2 DNA の塩基はウラシルではなくチミン。3 RNA は通常1本鎖。4 原核細胞には核膜がありません。5 光合成を行うのは葉緑体で、ミトコンドリアは呼吸の場です。"},
+
+{g:"自然科学",s:"地学",q:`<p>地震に関する記述として、妥当なのはどれか。</p>`,
+c:["マグニチュードは各地点での揺れの強さを表すもので、震源から遠いほど小さくなる。",
+"マグニチュードが1大きくなると、地震のエネルギーは約32倍になる。",
+"S 波は P 波より速く伝わるため、初期微動は S 波によって起こる。",
+"1948年の福井地震の被害を契機として、気象庁の震度階級に震度8が新設された。",
+"日本列島付近では、大陸プレートが海洋プレートの下に沈み込んでいる。"],a:2,
+e:"マグニチュードが1増えるとエネルギーは約32倍（2増えると1000倍）。1 は震度の説明。3 P 波の方が速く、初期微動は P 波による。4 福井地震を契機に新設されたのは震度7。5 海洋プレートが大陸プレートの下に沈み込みます。"},
+
+/* ===== 文章理解（現代文） ===== */
+{g:"文章理解",s:"現代文（要旨）",q:`<p>次の文章の要旨として、最も妥当なのはどれか。</p>
+<div class="passage">私たちは、不便を解消することを進歩と呼んできた。道路が延び、店が深夜まで開き、欲しいものは翌日に届く。その恩恵を否定する理由はない。しかし、不便が消えるとき、同時に消えていくものがあることにも目を向けたい。雪に閉ざされる冬があったからこそ、隣近所は声を掛け合い、蓄えを分け合う習慣を育ててきた。不便は、人と人とを結びつける契機でもあったのである。もちろん、昔に戻れと言いたいのではない。便利さを手に入れた今だからこそ、かつて不便が担っていた役割を、別の形で意識的につくり出す必要があるということだ。</div>`,
+c:["不便の解消は進歩ではなく、むしろ社会を後退させるものである。",
+"雪国の人々は、不便な生活を自ら好んで選んできた。",
+"便利さを手放し、かつての不便な暮らしに戻るべきである。",
+"便利になった社会では、不便が担っていた人と人とを結びつける役割を、意識的につくり出す必要がある。",
+"近所付き合いが減ったのは、深夜まで営業する店が増えたからである。"],a:4,
+e:"最終文が筆者の主張です。1・3 は「恩恵を否定する理由はない」「昔に戻れと言いたいのではない」に反します。2・5 は本文に述べられていません。"},
+
+{g:"文章理解",s:"現代文（要旨）",q:`<p>次の文章の要旨として、最も妥当なのはどれか。</p>
+<div class="passage">「失敗から学べ」とはよく言われるが、失敗しさえすれば学べるわけではない。失敗の多くは、悔しさや恥ずかしさとともに記憶の底へ押し込まれ、やがて忘れられる。学びに変わるのは、なぜそうなったのかを言葉にして振り返った失敗だけである。つまり、学びをもたらすのは失敗という出来事そのものではなく、その後の検討という行為なのだ。そう考えると、失敗を責める組織では人は失敗を隠すようになり、検討の機会そのものが失われてしまう。失敗を率直に語れる場があってはじめて、失敗は財産になる。</div>`,
+c:["失敗を多く経験した人ほど、多くのことを学ぶことができる。",
+"失敗は恥ずかしいものなので、できるだけ早く忘れたほうがよい。",
+"失敗を学びに変えるには振り返りが必要であり、そのためには失敗を率直に語れる環境が重要である。",
+"組織は失敗した人を厳しく責めることで、同じ失敗を防ぐべきである。",
+"失敗しないためには、事前に綿密な計画を立てることが最も大切である。"],a:3,
+e:"学びをもたらすのは失敗後の検討であり、失敗を語れる場が必要だという主張です。1 は冒頭で否定。4 は本文と逆。2・5 は述べられていません。"},
+
+{g:"文章理解",s:"現代文（内容把握）",q:`<p>次の文章の内容と合致するものとして、最も妥当なのはどれか。</p>
+<div class="passage">地図は現実をそのまま写したものではない。縮尺に合わせれば見えなくなるはずの道は太く描かれ、目印となる建物は記号に置き換えられ、目的に不要な情報は省かれる。登山用の地図には等高線が細かく描き込まれるが、鉄道の路線図では駅と駅の間の距離さえ正確ではない。それでも路線図が役に立つのは、乗り換えの順序という、利用者が知りたい関係だけを取り出して示しているからだ。地図の価値は正確さの度合いではなく、何を捨て、何を残したかという選択にある。</div>`,
+c:["地図の価値は、目的に応じて示す情報を取捨選択している点にある。",
+"地図は、現実を正確に縮小したものであるほど価値が高い。",
+"鉄道の路線図は、駅間の距離が不正確であるため、実用性に乏しい。",
+"登山用の地図には、目的に不要な情報も含めてすべてが描き込まれている。",
+"建物を記号に置き換えるのは、地図の正確さを高めるための工夫である。"],a:1,
+e:"最終文の内容と合致します。2 は最終文に反する。3 路線図は「役に立つ」と述べています。4 不要な情報は省かれると述べています。5 記号化は正確さを高めるためとは述べていません。"},
+
+{g:"文章理解",s:"現代文（空欄補充）",q:`<p>次の文章の空欄に入る語句として、最も妥当なのはどれか。</p>
+<div class="passage">議論で相手を言い負かしても、相手の考えが変わるとは限らない。むしろ、追い詰められた人は自分の立場を守ろうとして、いっそう意見に固執することが多い。人が考えを改めるのは、反論されたときよりも、自分の話を十分に聞いてもらえたと感じたときである。だから、相手を説得したいのであれば、まず（　　　　）ことから始めるべきなのだ。</div>`,
+c:["相手の誤りを一つずつ指摘する","自分の意見を繰り返し主張する","議論そのものを避ける","第三者に判断をゆだねる","相手の言い分に耳を傾ける"],a:5,
+e:"直前の「自分の話を十分に聞いてもらえたと感じたとき」に考えを改める、という内容を受けるので、「相手の言い分に耳を傾ける」が入ります。"},
+
+{g:"文章理解",s:"現代文（文章整序）",q:`<p>次の文の後に、A〜E を並べ替えて続けると意味の通る文章になる。その順序として最も妥当なのはどれか。</p>
+<div class="passage">リサイクルというと、ごみを分別して出すことを思い浮かべる人が多い。<br>
+A　しかし、資源を守るうえでより効果が大きいのは、そもそもごみを出さないことである。<br>
+B　実際、回収された資源を再生するためには、運搬や加工に多くのエネルギーが必要になる。<br>
+C　もちろん、分別は大切な取組である。<br>
+D　つまり、リサイクルは最後の手段であり、その前にごみを減らす工夫が求められるのだ。<br>
+E　再生にかかるこうした負担を考えれば、使い捨ての物をはじめから買わないほうが望ましい。</div>`,
+c:["A − B − C − E − D","C − A − B − E − D","C − B − A − D − E","B − E − C − A − D","C − A − E − B − D"],a:2,
+e:"分別の意義を認める C の後に「しかし」で主張を示す A。A の根拠を「実際」で示す B、B の「負担」を受ける E、全体をまとめる「つまり」の D の順です。"},
+
+/* ===== 文章理解（英文） ===== */
+{g:"文章理解",s:"英文（内容把握）",q:`<p>次の英文の内容と合致するものとして、最も妥当なのはどれか。</p>
+<div class="passage en">Fukui Prefecture is known for its dinosaur fossils. Many fossils have been found in Katsuyama City, and some of them were new species. The Fukui Prefectural Dinosaur Museum opened in 2000. Every year, a lot of people visit the museum from all over Japan and from abroad. Visitors can see skeletons of dinosaurs and learn how scientists study fossils.</div>`,
+c:["恐竜博物館では、勝山市以外で発見された化石だけが展示されている。",
+"恐竜博物館は、2010年に開館した。",
+"恐竜博物館を訪れる人は、日本国内の人に限られている。",
+"来館者は、化石の発掘作業を必ず体験しなければならない。",
+"勝山市で発見された化石の中には、新種のものも含まれていた。"],a:5,
+e:"2文目 some of them were new species と合致します。2 開館は2000年。3 from abroad とあり海外からも訪れる。1・4 は本文にありません。"},
+
+{g:"文章理解",s:"英文（要旨）",q:`<p>次の英文の要旨として、最も妥当なのはどれか。</p>
+<div class="passage en">Many people think that they need a lot of time to start a new habit. However, some experts say that small actions are more important than long hours. For example, if you want to read more books, you can begin by reading just one page before going to bed. Because such a small goal is easy to achieve, you are less likely to give up. Once the action becomes a part of your daily life, you can gradually increase the amount.</div>`,
+c:["新しい習慣を身につけるには、まとまった時間を確保することが欠かせない。",
+"読書の習慣は、寝る前に身につけるのが最も効果的である。",
+"習慣づくりは、達成しやすい小さな行動から始めて、少しずつ量を増やすとよい。",
+"目標が小さすぎると、途中であきらめやすくなる。",
+"習慣を身につけるには、少なくとも毎日1冊の本を読む必要がある。"],a:3,
+e:"小さな行動から始め、生活の一部になったら徐々に増やすという主旨です。1 は冒頭の「多くの人の考え」で筆者は否定。2 は具体例にすぎません。4 は本文と逆。5 は記述がありません。"},
+
+{g:"文章理解",s:"英文（文法）",q:`<p>次の英文の（　　）に入る語として、最も妥当なのはどれか。</p>
+<div class="passage en">I have been studying English (　　　) I was ten years old.</div>`,
+c:["for","since","during","until","by"],a:2,
+e:"現在完了進行形で「〜以来ずっと」を表し、後ろに節（I was ten years old）が続くので since が入ります。for や during は期間を表す語句を伴います。"},
+
+{g:"文章理解",s:"英文（会話文）",q:`<p>次の会話の内容と合致するものとして、最も妥当なのはどれか。</p>
+<div class="passage en">A: Excuse me. Could you tell me how to get to Fukui Station?<br>
+B: Sure. Go straight along this street and turn left at the second corner. You'll see the station on your right.<br>
+A: How long does it take on foot?<br>
+B: About ten minutes.<br>
+A: Thank you very much.</div>`,
+c:["駅へ行くには、最初の角を右に曲がる。",
+"駅までは、歩いて約20分かかる。",
+"B は A に、バスで行くことを勧めている。",
+"駅は、2つ目の角を左に曲がると右側に見える。",
+"A は、駅から目的地までの行き方を尋ねている。"],a:4,
+e:"turn left at the second corner. You'll see the station on your right. と合致します。2 About ten minutes. 3 バスの話はありません。5 A は駅への行き方を尋ねています。"},
+
+/* ===== 判断推理 ===== */
+{g:"判断推理",s:"判断推理（命題）",q:`<p>ある集団について、次のア〜ウのことが分かっている。これらから確実にいえるのはどれか。</p>
+<p>ア　スポーツが好きな人は、健康に気をつけている。<br>イ　健康に気をつけている人は、早起きである。<br>ウ　読書が好きな人は、早起きではない。</p>`,
+c:["スポーツが好きな人は、読書が好きではない。",
+"早起きの人は、スポーツが好きである。",
+"読書が好きな人は、健康に気をつけている。",
+"健康に気をつけていない人は、読書が好きである。",
+"早起きではない人は、スポーツが好きである。"],a:1,
+e:"ア・イより「スポーツ→健康→早起き」。ウの対偶「早起き→読書が好きではない」をつなぐと「スポーツ→読書が好きではない」。2・5 は逆・裏で不確実。3 は「読書→早起きでない→健康に気をつけていない」となり誤り。4 は不確実。"},
+
+{g:"判断推理",s:"判断推理（対応関係）",q:`<p>A〜D の4人は、福井市、敦賀市、小浜市、大野市のいずれか異なる市の出身である。次のア〜エのことが分かっているとき、確実にいえるのはどれか。</p>
+<p>ア　A は、福井市出身でも敦賀市出身でもない。<br>イ　B は、小浜市出身でも大野市出身でもない。<br>ウ　C は、福井市出身でも大野市出身でもない。<br>エ　D は、福井市出身でも小浜市出身でもない。</p>`,
+c:["A は小浜市出身である。","B は福井市出身である。","C は敦賀市出身である。","D は大野市出身である。","A が小浜市出身ならば、D は敦賀市出身である。"],a:2,
+e:"福井市出身の可能性があるのは B だけなので、B＝福井市。残りは「A 小浜・C 敦賀・D 大野」と「A 大野・C 小浜・D 敦賀」の2通りで、確実なのは B のみ。5 は A＝小浜なら D＝大野となり誤り。"},
+
+{g:"判断推理",s:"判断推理（順序関係）",q:`<p>A〜E の5人が徒競走をした。次のア〜エのことが分かっているとき、確実にいえるのはどれか。ただし、同着はなかった。</p>
+<p>ア　A は B より先にゴールした。<br>イ　C は D のすぐ後にゴールした。<br>ウ　E は3位だった。<br>エ　B は D より先にゴールした。</p>`,
+c:["A は2位だった。","C は4位だった。","B は2位だった。","D は5位だった。","E のすぐ後に C がゴールした。"],a:3,
+e:"A→B→D の順で、D のすぐ後に C。3位は E なので、D・C の連続は4位・5位しか入らず、A＝1位、B＝2位、E＝3位、D＝4位、C＝5位に確定します。"},
+
+{g:"判断推理",s:"判断推理（位置関係）",q:`<p>A〜F の6人が、円形のテーブルの周りに等間隔に並んだ6つの席に座っている。次のア〜エのことが分かっているとき、確実にいえるのはどれか。</p>
+<p>ア　A と D は向かい合って座っている。<br>イ　E は A の隣に座っている。<br>ウ　B と C は隣り合って座っている。<br>エ　C は A の隣には座っていない。</p>`,
+c:["A の両隣は E と F である。","B の向かいは E である。","F の両隣は A と E である。","C の両隣は D と B である。","D の向かいは C である。"],a:4,
+e:"A の席を①とし時計回りに①〜⑥とすると D＝④。E は②か⑥（左右対称なので②とする）。残る③⑤⑥のうち隣り合うのは⑤⑥だけなので B・C は⑤⑥、F＝③。C は A の隣でないので C＝⑤、B＝⑥。C の両隣は D（④）と B（⑥）です。"},
+
+{g:"判断推理",s:"判断推理（試合）",q:`<p>A〜D の4チームが、総当たり戦で野球の試合を1回ずつ行った。次のア〜ウのことが分かっているとき、確実にいえるのはどれか。ただし、引き分けの試合はなかった。</p>
+<p>ア　A は B に勝ったが、C に負けた。<br>イ　D は1勝もできなかった。<br>ウ　B は2勝した。</p>`,
+c:["A は3勝した。","C は B に勝った。","C は1勝2敗だった。","勝ち数が最も多かったのは A だけである。","2勝1敗のチームは3チームある。"],a:5,
+e:"D は全敗なので A・B・C はいずれも D に勝ち。B は A に負けているので、2勝するには C にも勝つ必要があります。よって A：2勝1敗、B：2勝1敗、C：2勝1敗（A・D に勝ち、B に負け）、D：3敗。"},
+
+{g:"判断推理",s:"判断推理（集合）",q:`<p>40人のクラスで、犬を飼っているか、猫を飼っているかを調べた。犬を飼っている人は20人、猫を飼っている人は12人、犬も猫も飼っていない人は15人であった。犬と猫の両方を飼っている人は何人か。</p>`,
+c:["7人","8人","10人","12人","13人"],a:1,
+e:"少なくとも一方を飼っている人は 40−15＝25人。両方を飼っている人は 20＋12−25＝7人。"},
+
+{g:"判断推理",s:"判断推理（うそつき）",q:`<p>A、B、C の3人のうち1人が花瓶を割った。3人は次のように発言したが、本当のことを言っているのは1人だけである。花瓶を割ったのは誰か。</p>
+<p>A「B が割った。」<br>B「私は割っていない。」<br>C「私は割っていない。」</p>`,
+c:["A","B","C","A か B のどちらかであるが、特定できない","特定できない"],a:3,
+e:"A が犯人なら B・C が本当（2人）で不適。B が犯人なら A・C が本当（2人）で不適。C が犯人なら A はうそ、B は本当、C はうそで、本当は B の1人だけとなり条件を満たします。"},
+
+{g:"判断推理",s:"空間把握（立体）",q:`<p>同じ大きさの白い小立方体64個をすき間なく積み重ねて、縦・横・高さがそれぞれ4個ずつの大きな立方体をつくった。この大きな立方体の表面（底面を含む6面）すべてに色を塗ったとき、ちょうど1つの面だけに色が塗られた小立方体は何個か。</p>`,
+c:["8個","12個","16個","24個","32個"],a:4,
+e:"1面だけ塗られるのは、各面の辺に接していない内側の小立方体で、1面あたり (4−2)²＝4個。6面で 4×6＝24個。"},
+
+{g:"判断推理",s:"空間把握（サイコロ）",q:`<p>向かい合う面の目の数の和が7であるサイコロがある。このサイコロを、上の面が1、手前の面が2、右側の面が3となるように机の上に置いた。ここから、次の順にサイコロを90°ずつ、すべらないように転がした。</p>
+<p>奥へ1回 → 右へ1回 → 奥へ1回</p><p>このとき、上の面の目の数はいくらか。</p>`,
+c:["2","3","4","5","6"],a:5,
+e:"最初：上1・手前2・右3（下6・奥5・左4）。奥へ転がすと上に手前の2がくる（手前6・奥1）。右へ転がすと上に左の4がくる（右2・下3・左5）。再び奥へ転がすと上に手前の6がきます。"},
+
+{g:"判断推理",s:"空間把握（図形の数）",q:`<p>次の図のように、正方形を縦3列・横3列の合計9個の小さな正方形に区切った。この図の中にある正方形は全部で何個か。</p>
+<svg viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="3行3列に区切られた正方形" style="display:block;margin:.6rem 0">
+<g fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="116" height="116"/>
+<line x1="40.7" y1="2" x2="40.7" y2="118"/><line x1="79.3" y1="2" x2="79.3" y2="118"/>
+<line x1="2" y1="40.7" x2="118" y2="40.7"/><line x1="2" y1="79.3" x2="118" y2="79.3"/></g></svg>`,
+c:["13個","14個","15個","16個","18個"],a:2,
+e:"1×1 が9個、2×2 が4個、3×3 が1個で、合計 9＋4＋1＝14個。"},
+
+/* ===== 数的推理 ===== */
+{g:"数的推理",s:"数的推理（速さ）",q:`<p>家から駅まで、分速60mで歩くと、分速80mで歩くときよりも到着までに5分多くかかる。家から駅までの道のりは何mか。</p>`,
+c:["1,200m","1,500m","1,800m","2,000m","2,400m"],a:1,
+e:"道のりを x m とすると x/60 − x/80 ＝ 5。両辺に240をかけて 4x − 3x ＝ 1,200、x＝1,200m。"},
+
+{g:"数的推理",s:"数的推理（濃度）",q:`<p>濃度8％の食塩水200gに水を加えて、濃度5％の食塩水にしたい。加える水は何gか。</p>`,
+c:["60g","80g","90g","100g","120g"],a:5,
+e:"食塩の量は 200×0.08＝16g で変わらない。加える水を x g とすると 16÷(200＋x)＝0.05 より 200＋x＝320、x＝120g。"},
+
+{g:"数的推理",s:"数的推理（仕事算）",q:`<p>ある仕事を仕上げるのに、A 1人では12日、B 1人では6日かかる。この仕事を、はじめの3日間は A 1人で行い、残りを A と B の2人で行った。仕事を始めてから仕上げるまでに、全部で何日かかったか。</p>`,
+c:["5日","6日","7日","8日","9日"],a:2,
+e:"全体を1とすると、A の1日の仕事量は1/12、B は1/6。A が3日で 3/12＝1/4 を終え、残り 3/4 を2人で（1日 1/12＋1/6＝1/4）行うと3日。合計 3＋3＝6日。"},
+
+{g:"数的推理",s:"数的推理（年齢算）",q:`<p>現在、父は42歳、子は10歳である。父の年齢が子の年齢のちょうど3倍になるのは、今から何年後か。</p>`,
+c:["3年後","4年後","5年後","6年後","8年後"],a:4,
+e:"x 年後とすると 42＋x＝3(10＋x)。42＋x＝30＋3x より x＝6。6年後は父48歳、子16歳で3倍です。"},
+
+{g:"数的推理",s:"数的推理（場合の数）",q:`<p>男子3人と女子2人の合計5人が横一列に並ぶとき、女子2人が隣り合う並び方は何通りあるか。</p>`,
+c:["48通り","60通り","72通り","96通り","120通り"],a:1,
+e:"女子2人をひとまとまりと考えると、4つのものの並べ方で 4!＝24通り。まとまりの中での女子の並び方が2通りなので 24×2＝48通り。"},
+
+{g:"数的推理",s:"数的推理（確率）",q:`<p>大小2個のサイコロを同時に投げるとき、出た目の数の和が5の倍数になる確率はいくらか。</p>`,
+c:["1/6","7/36","2/9","1/4","5/18"],a:2,
+e:"全36通り。和が5：(1,4)(2,3)(3,2)(4,1)の4通り、和が10：(4,6)(5,5)(6,4)の3通り。合計7通りで 7/36。"},
+
+{g:"数的推理",s:"数的推理（整数）",q:`<p>1から100までの整数のうち、3でも4でも割り切れない数は何個あるか。</p>`,
+c:["40個","45個","50個","55個","60個"],a:3,
+e:"3の倍数33個、4の倍数25個、12の倍数8個。3または4で割り切れる数は 33＋25−8＝50個。よって割り切れない数は 100−50＝50個。"},
+
+{g:"数的推理",s:"数的推理（図形）",q:`<p>半径6cmの円に、4つの頂点がすべて円周上にある正方形が内接している。この正方形の面積は何cm<sup>2</sup>か。</p>`,
+c:["36cm<sup>2</sup>","48cm<sup>2</sup>","64cm<sup>2</sup>","72cm<sup>2</sup>","144cm<sup>2</sup>"],a:4,
+e:"正方形の対角線は円の直径 12cm。正方形の面積は（対角線）²÷2 ＝ 144÷2 ＝ 72cm²。"},
+
+/* ===== 資料解釈 ===== */
+{g:"資料解釈",s:"資料解釈（実数）",q:`<p>次の表は、ある県の地域別観光客入込数を示したものである（架空のデータ）。この表から確実にいえるのはどれか。</p>
+<div class="tbl"><table><caption style="text-align:left;font-size:.85rem">地域別観光客入込数（単位：万人）</caption>
+<tr><th>地域</th><th>2023年</th><th>2024年</th></tr>
+<tr><td>A地域</td><td>400</td><td>460</td></tr>
+<tr><td>B地域</td><td>250</td><td>275</td></tr>
+<tr><td>C地域</td><td>150</td><td>144</td></tr>
+<tr><td>D地域</td><td>200</td><td>240</td></tr>
+<tr><td>合計</td><td>1,000</td><td>1,119</td></tr></table></div>`,
+c:["2024年に前年より入込数が減少した地域は、2地域ある。",
+"2024年の対前年増加率が最も大きいのは、A地域である。",
+"2024年の合計は、前年に比べて10％以上増加している。",
+"2024年において、B地域の入込数が合計に占める割合は25％を超えている。",
+"2024年の対前年増加数が最も大きいのは、D地域である。"],a:3,
+e:"合計は 1,000→1,119 で11.9％増。1 減少は C地域のみ。2 増加率は A 15％、B 10％、C −4％、D 20％で D が最大。4 275÷1,119≒24.6％。5 増加数は A が60万人で最大（D は40万人）。"},
+
+{g:"資料解釈",s:"資料解釈（構成比）",q:`<p>次の表は、ある市の総人口と年齢3区分別人口の割合を示したものである（架空のデータ）。この表から確実にいえるのはどれか。</p>
+<div class="tbl"><table>
+<tr><th></th><th>2000年</th><th>2020年</th></tr>
+<tr><td>総人口</td><td>50,000人</td><td>40,000人</td></tr>
+<tr><td>0〜14歳</td><td>16％</td><td>11％</td></tr>
+<tr><td>15〜64歳</td><td>64％</td><td>56％</td></tr>
+<tr><td>65歳以上</td><td>20％</td><td>33％</td></tr></table></div>`,
+c:["2020年の65歳以上人口は、2000年の1.5倍を超えている。",
+"15〜64歳人口は、2000年から2020年にかけて1万人以上減少している。",
+"0〜14歳人口は、2000年から2020年にかけて半数以下になっている。",
+"2000年から2020年にかけての総人口の減少数は、15〜64歳人口の減少数より少ない。",
+"2020年の65歳以上人口は、同年の0〜14歳人口のちょうど3倍である。"],a:5,
+e:"2020年：65歳以上 40,000×0.33＝13,200人、0〜14歳 40,000×0.11＝4,400人で、ちょうど3倍。1 2000年の65歳以上は10,000人で1.32倍。2 32,000→22,400人で9,600人減。3 8,000→4,400人で半数を超える。4 総人口の減少は10,000人で、15〜64歳の減少9,600人より多い。"},
+
+{g:"資料解釈",s:"資料解釈（増加率）",q:`<p>次の表は、ある県の3つの品目の出荷額について、対前年増加率を示したものである（架空のデータ）。この表から確実にいえるのはどれか。</p>
+<div class="tbl"><table><caption style="text-align:left;font-size:.85rem">出荷額の対前年増加率（単位：％）</caption>
+<tr><th>品目</th><th>2022年</th><th>2023年</th><th>2024年</th></tr>
+<tr><td>眼鏡枠</td><td>5.0</td><td>−10.0</td><td>20.0</td></tr>
+<tr><td>繊維製品</td><td>−4.0</td><td>2.0</td><td>−2.0</td></tr>
+<tr><td>漆器</td><td>10.0</td><td>10.0</td><td>−10.0</td></tr></table></div>`,
+c:["眼鏡枠の2024年の出荷額は、2021年の出荷額を上回っている。",
+"繊維製品の出荷額は、2021年から2024年まで一貫して減少している。",
+"漆器の2024年の出荷額は、2022年の出荷額と等しい。",
+"2023年の出荷額は、漆器が繊維製品を上回っている。",
+"繊維製品の2024年の出荷額は、2021年の出荷額を上回っている。"],a:1,
+e:"2021年を100とすると眼鏡枠の2024年は 100×1.05×0.90×1.20＝113.4 で上回ります。2 2023年は増加。3 2022年を100とすると2024年は 100×1.10×0.90＝99 で等しくない。4 増加率だけでは品目間の金額は比較できません。5 100×0.96×1.02×0.98≒96.0 で下回ります。"}
+];
+
+const GROUPS = ["社会科学","人文科学","自然科学","文章理解","判断推理","数的推理","資料解釈"];
+const LIMIT = 120*60;
+const KEY = "fukui-shokyu-mock-v1";
+let state = {answers:Array(50).fill(0), remain:LIMIT, started:false, graded:false};
+let timer = null;
+
+const $ = s => document.querySelector(s);
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function load(){ try{ const v = JSON.parse(localStorage.getItem(KEY)); if(v && Array.isArray(v.answers) && v.answers.length===50) return v; }catch(e){} return null; }
+
+function render(){
+  const box = $("#questions"); let html = ""; let last = "";
+  Q.forEach((it,i)=>{
+    if(it.g!==last){ html += `<h2 class="sec-head">${it.g}</h2>`; last = it.g; }
+    const n=i+1;
+    html += `<article class="q" id="q${n}"><div class="q-top"><span class="q-no">No.${n}</span><span class="q-subj">${it.s}</span></div>
+    <div class="q-body">${it.q}</div>
+    <ul class="choices">${it.c.map((t,k)=>`<li><label id="l${n}_${k+1}"><input type="radio" name="q${n}" value="${k+1}"><span class="bubble">${k+1}</span><span class="ctext">${t}</span></label></li>`).join("")}</ul>
+    <div class="verdict hidden" id="v${n}"></div></article>`;
+  });
+  box.innerHTML = html;
+  const rows = $("#rows"); let r = "";
+  for(let i=1;i<=50;i++){
+    r += `<div class="row"><a href="#q${i}">${i}</a>${[1,2,3,4,5].map(k=>`<button class="dot" data-q="${i}" data-k="${k}" aria-label="問${i} 選択肢${k}"></button>`).join("")}</div>`;
+  }
+  rows.innerHTML = r;
+  box.addEventListener("change", e=>{
+    if(state.graded) return;
+    const m = e.target.name && e.target.name.match(/^q(\d+)$/); if(!m) return;
+    setAnswer(+m[1], +e.target.value);
+  });
+  rows.addEventListener("click", e=>{
+    const b = e.target.closest(".dot"); if(!b || state.graded) return;
+    const qn=+b.dataset.q, k=+b.dataset.k;
+    setAnswer(qn, state.answers[qn-1]===k ? 0 : k);
+  });
+}
+function setAnswer(n,k){ state.answers[n-1]=k; sync(); save(); }
+function sync(){
+  let cnt=0;
+  state.answers.forEach((v,i)=>{
+    const n=i+1; if(v) cnt++;
+    document.querySelectorAll(`input[name="q${n}"]`).forEach(inp=>{ inp.checked = (+inp.value===v); inp.disabled = state.graded; });
+    document.querySelectorAll(`.dot[data-q="${n}"]`).forEach(d=>d.classList.toggle("on", +d.dataset.k===v));
+  });
+  $("#progress").textContent = `解答 ${cnt} / 50`;
+  $("#sheetCount").textContent = `${cnt}/50`;
+}
+function fmt(s){ const m=Math.floor(s/60), ss=s%60; return `${m}:${String(ss).padStart(2,"0")}`; }
+function tick(){
+  state.remain = Math.max(0, state.remain-1);
+  $("#clock").textContent = fmt(state.remain);
+  $("#clock").classList.toggle("low", state.remain<=600);
+  if(state.remain%5===0) save();
+  if(state.remain===0){ grade(true); }
+}
+function startExam(fresh){
+  if(fresh){ state = {answers:Array(50).fill(0), remain:LIMIT, started:true, graded:false}; }
+  state.started = true;
+  $("#cover").classList.add("hidden"); $("#exam").classList.remove("hidden");
+  sync(); $("#clock").textContent = fmt(state.remain);
+  if(state.graded){ showResult(); return; }
+  clearInterval(timer); timer = setInterval(tick,1000); save();
+  window.scrollTo(0,0);
+}
+function grade(auto){
+  if(state.graded) return;
+  if(!auto){
+    const blank = state.answers.filter(v=>!v).length;
+    const msg = blank ? `未解答が${blank}問あります。採点しますか？` : "解答を終了して採点しますか？";
+    if(!confirm(msg)) return;
+  }
+  clearInterval(timer); state.graded = true; save(); showResult(auto);
+}
+function showResult(auto){
+  sync();
+  let total=0; const by={}; GROUPS.forEach(g=>by[g]={ok:0,n:0});
+  Q.forEach((it,i)=>{
+    const n=i+1, v=state.answers[i], ok = v===it.a;
+    by[it.g].n++; if(ok){ by[it.g].ok++; total++; }
+    const art=$("#q"+n); art.classList.add("graded"); art.dataset.ok = ok ? "1":"0";
+    $(`#l${n}_${it.a}`).classList.add("is-correct");
+    if(v && !ok) $(`#l${n}_${v}`).classList.add("is-wrong");
+    const vd=$("#v"+n); vd.classList.remove("hidden"); vd.classList.toggle("ng",!ok);
+    vd.innerHTML = `<strong>${ok?"正解":"不正解"}　正答 ${it.a}${v?`（あなたの解答 ${v}）`:"（未解答）"}</strong>${it.e}`;
+    document.querySelectorAll(`.dot[data-q="${n}"]`).forEach(d=>{ const k=+d.dataset.k; d.classList.toggle("c",k===it.a); d.classList.toggle("x", k===v && !ok); d.disabled=true; });
+  });
+  const res=$("#result"); res.classList.remove("hidden");
+  const used = LIMIT-state.remain;
+  res.innerHTML = `<p style="margin:0;color:var(--graphite);font-size:.9rem">${auto?"試験時間が終了しました。":"採点結果"}　所要時間 ${fmt(used)}</p>
+  <p class="score">${total}<small> / 50問　正答率 ${Math.round(total/50*100)}％</small></p>
+  <p style="margin:.2rem 0 0;font-size:.9rem">教養試験の合格ラインは一般に6割前後が目安とされます（実際の福井県の試験は標準点で判定）。</p>
+  <div class="breakdown">${GROUPS.map(g=>{const b=by[g];return `<div class="bd"><span>${g}</span><div class="track"><div class="fill" style="width:${b.ok/b.n*100}%"></div></div><span>${b.ok}/${b.n}</span></div>`}).join("")}</div>
+  <div class="filter"><button class="btn primary" id="fAll">すべての問題を見る</button><button class="btn" id="fNg">間違えた問題だけ見る</button><button class="btn" id="fPrint">結果を印刷</button></div>`;
+  $("#fAll").onclick=()=>filter(false); $("#fNg").onclick=()=>filter(true); $("#fPrint").onclick=()=>window.print();
+  $("#submitBtn").classList.add("hidden"); $("#retryBtn").classList.remove("hidden");
+  $("#clock").textContent = "終了";
+  window.scrollTo(0,0);
+}
+function filter(ngOnly){
+  document.querySelectorAll(".q").forEach(a=>a.classList.toggle("hidden", ngOnly && a.dataset.ok==="1"));
+  document.querySelectorAll(".sec-head").forEach(h=>{
+    let el=h.nextElementSibling, any=false;
+    while(el && !el.classList.contains("sec-head")){ if(!el.classList.contains("hidden")) any=true; el=el.nextElementSibling; }
+    h.classList.toggle("hidden", !any);
+  });
+}
+
+render();
+const saved = load();
+if(saved && saved.started){ $("#resumeBtn").classList.remove("hidden"); $("#resumeBtn").textContent = saved.graded ? "前回の採点結果を見る" : `続きから再開（残り ${fmt(saved.remain)}）`; }
+$("#startBtn").onclick = ()=>{ if(saved && saved.started && !saved.graded && !confirm("保存中の解答を消して、最初から始めますか？")) return; startExam(true); };
+$("#resumeBtn").onclick = ()=>{ state = saved; startExam(false); };
+$("#printBtn").onclick = ()=>{ $("#exam").classList.remove("hidden"); window.print(); if(!state.started) $("#exam").classList.add("hidden"); };
+$("#submitBtn").onclick = ()=>grade(false);
+$("#retryBtn").onclick = ()=>{ if(!confirm("解答と結果を消して、最初からやり直しますか？")) return; try{localStorage.removeItem(KEY);}catch(e){} location.reload(); };
+const tg=$("#sheetToggle"), sh=$("#sheet");
+tg.onclick=()=>{ const o=sh.classList.toggle("open"); tg.setAttribute("aria-expanded",o); tg.textContent=o?"閉じる":"解答用紙"; };
+rowsLinkClose();
+function rowsLinkClose(){ $("#rows").addEventListener("click",e=>{ if(e.target.tagName==="A" && window.innerWidth<=860){ sh.classList.remove("open"); tg.textContent="解答用紙"; tg.setAttribute("aria-expanded",false);} }); }
+</script>
+</body>
+</html>
