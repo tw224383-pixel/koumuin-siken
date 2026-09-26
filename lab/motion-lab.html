@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>等加速度運動ラボ</title>
+<style>
+:root{
+  --bg:#f4f6fb; --panel:#ffffff; --ink:#1d2330; --muted:#5b6475; --line:#dde1ea;
+  --accent:#2f6fed; --c1:#e4572e; --c2:#2f6fed; --c3:#13a06b; --acc:#8a4fd8;
+  --grid:#eceff5; --ground:#d9cdb8; --soft:#eef3ff;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#11141b; --panel:#1a1f29; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2c3340;
+    --accent:#6d9bff; --c1:#ff7a52; --c2:#6d9bff; --c3:#3fcf95; --acc:#b88cff;
+    --grid:#232935; --ground:#4a4234; --soft:#1f2a40;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Hiragino Sans","Yu Gothic UI","Meiryo",system-ui,sans-serif;line-height:1.6}
+header{padding:18px 16px 6px;max-width:1200px;margin:0 auto}
+h1{font-size:1.45rem;margin:0}
+header p{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;max-width:1200px;margin:12px auto 0;padding:0 16px}
+.tabs button{border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  padding:8px 14px;border-radius:999px;font-size:.95rem;cursor:pointer;font-family:inherit}
+.tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+main{max-width:1200px;margin:0 auto;padding:12px 16px 40px;display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:900px){main{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.card h2{font-size:1.02rem;margin:0 0 8px}
+canvas{width:100%;display:block}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.btns button{font-family:inherit;font-size:.95rem;padding:8px 14px;border-radius:10px;
+  border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.btns button.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.ctrl{display:grid;grid-template-columns:8.5em minmax(0,1fr) 5.5em;align-items:center;gap:8px;margin:6px 0;font-size:.92rem}
+.ctrl output{font-variant-numeric:tabular-nums;text-align:right}
+.ctrl input[type=range]{width:100%}
+.ctrl select{font-family:inherit;padding:3px}
+.presets{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.presets button{font-family:inherit;font-size:.82rem;padding:4px 10px;border-radius:999px;
+  border:1px dashed var(--muted);background:transparent;color:var(--ink);cursor:pointer}
+.readout{font-size:.9rem;font-variant-numeric:tabular-nums}
+.readout .body{border-left:4px solid;padding:4px 10px;margin:8px 0;background:var(--soft);border-radius:0 8px 8px 0}
+.readout .f{font-family:"Cambria Math","Times New Roman",serif;font-size:1rem}
+.readout b{font-size:1rem}
+.tablewrap{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.85rem;font-variant-numeric:tabular-nums}
+th,td{padding:4px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{position:sticky;top:0;background:var(--panel)}
+.note{font-size:.82rem;color:var(--muted);margin:6px 0 0}
+.explain{grid-column:1/-1}
+.explain h3{font-size:1.05rem;margin:18px 0 6px;border-bottom:2px solid var(--line);padding-bottom:3px}
+.explain h3:first-child{margin-top:0}
+.formula{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.formula div{background:var(--soft);border-radius:10px;padding:8px 14px;
+  font-family:"Cambria Math","Times New Roman",serif;font-size:1.15rem}
+.formula small{display:block;font-family:"Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;font-size:.75rem;color:var(--muted)}
+.explain li{margin:4px 0}
+.hl{background:linear-gradient(transparent 60%,rgba(255,200,0,.35) 60%)}
+.timebar{display:grid;grid-template-columns:4em minmax(0,1fr) 6em;gap:8px;align-items:center;font-size:.9rem}
+.timebar output{text-align:right;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<header>
+  <h1>等加速度運動ラボ ― 自由落下・鉛直投げ下ろし・等加速度直線運動</h1>
+  <p>パラメータを動かして ▶ スタート。ストロボ写真（一定時間ごとの位置）・v-t グラフ・位置-t グラフが同時に動きます。</p>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-mode="free" class="on">① 自由落下</button>
+  <button data-mode="down">② 鉛直投げ下ろし</button>
+  <button data-mode="accel">③ 等加速度直線運動</button>
+  <button data-mode="compare">④ 比較：自由落下 vs 投げ下ろし</button>
+</nav>
+
+<main>
+  <section class="card">
+    <h2 id="sceneTitle">シミュレーション</h2>
+    <canvas id="scene"></canvas>
+    <div class="timebar" style="margin-top:8px">
+      <span>時刻</span>
+      <input type="range" id="tSlider" min="0" max="1" step="0.001" value="0">
+      <output id="tOut">0.00 s</output>
+    </div>
+    <div class="btns">
+      <button class="primary" id="play">▶ スタート</button>
+      <button id="step">⏭ コマ送り</button>
+      <button id="reset">↺ リセット</button>
+    </div>
+
+    <div class="ctrl" data-modes="free down compare"><label for="H">高さ H</label><input type="range" id="H" min="5" max="100" step="1"><output></output></div>
+    <div class="ctrl" data-modes="free down compare"><label for="g">重力加速度 g</label><input type="range" id="g" min="1.6" max="20" step="0.1"><output></output></div>
+    <div class="ctrl" data-modes="down compare"><label for="v0">初速度 v₀（下向き）</label><input type="range" id="v0" min="0" max="20" step="0.5"><output></output></div>
+    <div class="ctrl" data-modes="accel"><label for="u0">初速度 v₀</label><input type="range" id="u0" min="-10" max="20" step="0.5"><output></output></div>
+    <div class="ctrl" data-modes="accel"><label for="a">加速度 a</label><input type="range" id="a" min="-5" max="5" step="0.1"><output></output></div>
+    <div class="presets" data-modes="accel">
+      <button data-u0="0" data-a="2">静止から加速</button>
+      <button data-u0="4" data-a="1.5">加速</button>
+      <button data-u0="8" data-a="0">等速 (a=0)</button>
+      <button data-u0="12" data-a="-2">減速 → 停止 → 逆走</button>
+    </div>
+    <div class="presets" data-modes="free down compare">
+      <button data-g="9.8">地球 g=9.8</button>
+      <button data-g="1.6">月 g=1.6</button>
+      <button data-g="3.7">火星 g=3.7</button>
+    </div>
+    <div class="ctrl"><label for="strobe">ストロボ間隔 Δt</label>
+      <select id="strobe"><option value="0.1">0.1 s</option><option value="0.2">0.2 s</option><option value="0.5">0.5 s</option><option value="1">1.0 s</option></select><span></span></div>
+    <div class="ctrl"><label for="speed">再生速度</label><input type="range" id="speed" min="0.1" max="1" step="0.05"><output></output></div>
+  </section>
+
+  <section class="card">
+    <h2>グラフ</h2>
+    <canvas id="gv"></canvas>
+    <p class="note">塗りつぶした面積 ＝ その時刻までに進んだ距離（変位）。直線の傾き ＝ 加速度。</p>
+    <canvas id="gx" style="margin-top:10px"></canvas>
+    <p class="note">破線 ＝ 今の時刻での接線。接線の傾き ＝ その瞬間の速度。</p>
+  </section>
+
+  <section class="card">
+    <h2>いまの値と公式への代入</h2>
+    <div class="readout" id="readout"></div>
+  </section>
+
+  <section class="card">
+    <h2>ストロボ記録（Δt ごとの位置）</h2>
+    <div class="tablewrap"><table id="table"></table></div>
+    <p class="note" id="tableNote"></p>
+  </section>
+
+  <section class="card explain" id="explain"></section>
+</main>
+
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const P = { H:20, g:9.8, v0:5, u0:4, a:1.5, strobe:0.2, speed:0.5 };
+const X_MIN = -10, X_MAX = 50, T_CAP = 12;
+const state = { mode:'free', t:0, running:false, last:0 };
+
+/* ---------- 物理 ---------- */
+const pos = (b,t) => b.v0*t + 0.5*b.a*t*t;
+const vel = (b,t) => b.v0 + b.a*t;
+function firstRoot(a, v0, X){ // v0 t + a t²/2 = X となる最小の t>0
+  if (Math.abs(a) < 1e-9){ if (Math.abs(v0) < 1e-9) return Infinity; const t = X/v0; return t > 1e-9 ? t : Infinity; }
+  const D = v0*v0 + 2*a*X; if (D < 0) return Infinity;
+  const s = Math.sqrt(D);
+  const r = [(-v0+s)/a, (-v0-s)/a].filter(t => t > 1e-9);
+  return r.length ? Math.min(...r) : Infinity;
+}
+function bodies(){
+  const m = state.mode;
+  let bs;
+  if (m === 'free') bs = [{ name:'自由落下', v0:0, a:P.g, color:'--c1', kind:'free' }];
+  else if (m === 'down') bs = [{ name:'投げ下ろし', v0:P.v0, a:P.g, color:'--c2', kind:'down' }];
+  else if (m === 'compare') bs = [
+    { name:'自由落下', v0:0, a:P.g, color:'--c1', kind:'free' },
+    { name:'投げ下ろし', v0:P.v0, a:P.g, color:'--c2', kind:'down' }];
+  else bs = [{ name:'台車', v0:P.u0, a:P.a, color:'--c3', kind:'accel' }];
+  bs.forEach(b => {
+    b.tEnd = b.kind === 'accel'
+      ? Math.min(T_CAP, firstRoot(b.a, b.v0, X_MAX), firstRoot(b.a, b.v0, X_MIN))
+      : firstRoot(b.a, b.v0, P.H);
+  });
+  return bs;
+}
+const isVertical = () => state.mode !== 'accel';
+const tEndAll = bs => Math.max(...bs.map(b => b.tEnd));
+
+/* ---------- 描画ユーティリティ ---------- */
+const dpr = () => window.devicePixelRatio || 1;
+function fit(cv, h){
+  const w = cv.clientWidth, r = dpr();
+  if (cv.width !== Math.round(w*r) || cv.height !== Math.round(h*r)){
+    cv.width = Math.round(w*r); cv.height = Math.round(h*r); cv.style.height = h + 'px';
+  }
+  const ctx = cv.getContext('2d'); ctx.setTransform(r,0,0,r,0,0); ctx.clearRect(0,0,w,h);
+  return { ctx, w, h };
+}
+let C = {};
+function readColors(){
+  const cs = getComputedStyle(document.documentElement);
+  ['--ink','--muted','--line','--grid','--ground','--c1','--c2','--c3','--acc','--panel','--accent']
+    .forEach(k => C[k] = cs.getPropertyValue(k).trim());
+}
+function niceStep(range, n=5){
+  const raw = range/n, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw/p;
+  return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p;
+}
+const fmt = (x, d=2) => (Math.abs(x) < 5e-10 ? 0 : x).toFixed(d);
+function arrow(ctx, x1, y1, x2, y2, color, wd=3){
+  const L = Math.hypot(x2-x1, y2-y1); if (L < 3) return;
+  const an = Math.atan2(y2-y1, x2-x1), hs = Math.min(11, L*0.6);
+  ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = wd;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2 - hs*0.7*Math.cos(an), y2 - hs*0.7*Math.sin(an)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(x2 - hs*Math.cos(an-0.45), y2 - hs*Math.sin(an-0.45));
+  ctx.lineTo(x2 - hs*Math.cos(an+0.45), y2 - hs*Math.sin(an+0.45));
+  ctx.closePath(); ctx.fill();
+}
+function text(ctx, s, x, y, color, align='left', size=12, bold=false){
+  ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'middle';
+  ctx.font = `${bold?'600 ':''}${size}px "Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif`;
+  ctx.fillText(s, x, y);
+}
+
+/* ---------- シーン：鉛直 ---------- */
+function drawVertical(bs){
+  const { ctx, w, h } = fit($('#scene'), 520);
+  const top = 46, bot = 40, left = 58;
+  const s = (h - top - bot) / P.H, Y = y => top + y*s;
+  // 地面
+  ctx.fillStyle = C['--ground']; ctx.fillRect(0, Y(P.H), w, h - Y(P.H));
+  text(ctx, '地面', w - 10, Y(P.H) + 16, C['--ink'], 'right', 12);
+  // 目盛り
+  const st = niceStep(P.H, 8);
+  ctx.lineWidth = 1;
+  for (let m = 0; m <= P.H + 1e-9; m += st){
+    ctx.strokeStyle = C['--grid']; ctx.beginPath(); ctx.moveTo(left, Y(m)); ctx.lineTo(w - 6, Y(m)); ctx.stroke();
+    ctx.strokeStyle = C['--muted']; ctx.beginPath(); ctx.moveTo(left - 6, Y(m)); ctx.lineTo(left, Y(m)); ctx.stroke();
+    text(ctx, `${+m.toFixed(1)} m`, left - 9, Y(m), C['--muted'], 'right', 11);
+  }
+  ctx.strokeStyle = C['--muted']; ctx.beginPath(); ctx.moveTo(left, Y(0)); ctx.lineTo(left, Y(P.H)); ctx.stroke();
+  text(ctx, 'y（下向き正）', left - 4, 16, C['--muted'], 'left', 11);
+  // スタート台
+  ctx.strokeStyle = C['--ink']; ctx.lineWidth = 2; ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(left, Y(0)); ctx.lineTo(w - 6, Y(0)); ctx.stroke(); ctx.setLineDash([]);
+  // 加速度表示
+  const gx = w - 22;
+  arrow(ctx, gx, top + 16, gx, top + 16 + Math.min(70, P.g*4.5), C['--acc'], 3);
+  text(ctx, `g = ${P.g.toFixed(1)} m/s²`, gx - 8, top + 6, C['--acc'], 'right', 12, true);
+
+  const vMax = Math.max(1, ...bs.map(b => Math.abs(vel(b, b.tEnd))));
+  const vs = 95 / vMax;
+  const colX = bs.length === 1 ? [left + (w-left)*0.42] : [left + (w-left)*0.26, left + (w-left)*0.62];
+  bs.forEach((b, i) => {
+    const x = colX[i], col = C[b.color], tt = Math.min(state.t, b.tEnd);
+    text(ctx, b.name + (b.v0 ? `（v₀=${b.v0} m/s）` : ''), x, 18 + (bs.length > 1 ? 0 : 0), col, 'center', 12, true);
+    // ストロボ
+    const n = Math.floor(tt / P.strobe + 1e-9);
+    let lastLabel = -1e9;
+    for (let k = 0; k <= n; k++){
+      const y = pos(b, k*P.strobe), py = Y(y);
+      ctx.globalAlpha = 0.28; ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(x, py, 9, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1;
+      ctx.strokeStyle = col; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x + 11, py); ctx.lineTo(x + 18, py); ctx.stroke();
+      if (py - lastLabel > 13){ text(ctx, `${fmt(y,1)}`, x + 21, py, col, 'left', 10); lastLabel = py; }
+    }
+    // 本体
+    const y = pos(b, tt), py = Y(y), v = vel(b, tt);
+    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, py, 10, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = C['--panel']; ctx.lineWidth = 2; ctx.stroke();
+    if (state.t >= b.tEnd - 1e-9){ text(ctx, `着地！ v=${fmt(v,1)} m/s`, x, py - 20, col, 'center', 12, true); return; }
+    // 速度ベクトル
+    arrow(ctx, x - 26, py, x - 26, py + v*vs, col, 4);
+    if (Math.abs(v) > 0.05) text(ctx, `v=${fmt(v,1)}`, x - 32, py + v*vs/2 + 0, col, 'right', 11, true);
+    else text(ctx, 'v=0', x - 32, py, col, 'right', 11, true);
+  });
+}
+
+/* ---------- シーン：水平 ---------- */
+function drawHorizontal(bs){
+  const b = bs[0];
+  const { ctx, w, h } = fit($('#scene'), 300);
+  const l = 26, r = 26, s = (w - l - r)/(X_MAX - X_MIN), X = x => l + (x - X_MIN)*s;
+  const trackY = 222, stripY = 50, aY = 108, vY = 150;
+  const col = C[b.color], tt = Math.min(state.t, b.tEnd);
+  // レール・目盛り
+  ctx.fillStyle = C['--ground']; ctx.fillRect(0, trackY, w, 6);
+  const st = niceStep(X_MAX - X_MIN, 10);
+  for (let m = Math.ceil(X_MIN/st)*st; m <= X_MAX + 1e-9; m += st){
+    ctx.strokeStyle = C['--grid']; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(X(m), stripY - 18); ctx.lineTo(X(m), trackY); ctx.stroke();
+    ctx.strokeStyle = C['--muted']; ctx.beginPath(); ctx.moveTo(X(m), trackY + 6); ctx.lineTo(X(m), trackY + 12); ctx.stroke();
+    text(ctx, `${m}`, X(m), trackY + 22, m === 0 ? C['--ink'] : C['--muted'], 'center', 11, m === 0);
+  }
+  text(ctx, 'x [m]（右向き正）', w - r, trackY + 40, C['--muted'], 'right', 11);
+  text(ctx, 'スタート x=0', X(0), trackY + 40, C['--ink'], 'center', 11);
+  // ストロボ帯
+  text(ctx, 'ストロボ写真', l, stripY - 26, C['--muted'], 'left', 11);
+  ctx.strokeStyle = C['--line']; ctx.beginPath(); ctx.moveTo(l, stripY); ctx.lineTo(w - r, stripY); ctx.stroke();
+  const n = Math.floor(tt / P.strobe + 1e-9);
+  for (let k = 0; k <= n; k++){
+    const x = pos(b, k*P.strobe);
+    ctx.globalAlpha = 0.35; ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(X(x), stripY, 7, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1;
+    ctx.strokeStyle = col; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(X(x), stripY + 9); ctx.lineTo(X(x), stripY + 15); ctx.stroke();
+  }
+  // 台車
+  const x = pos(b, tt), cx = X(x), v = vel(b, tt);
+  ctx.fillStyle = col;
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(cx - 20, trackY - 30, 40, 20, 5) : ctx.rect(cx - 20, trackY - 30, 40, 20); ctx.fill();
+  ctx.fillStyle = C['--ink'];
+  [cx - 11, cx + 11].forEach(wx => { ctx.beginPath(); ctx.arc(wx, trackY - 6, 6, 0, Math.PI*2); ctx.fill(); });
+  // ベクトル
+  const vMax = Math.max(1, Math.abs(b.v0), Math.abs(vel(b, b.tEnd)));
+  const vs = 110 / vMax;
+  ctx.strokeStyle = C['--line']; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(cx, aY - 12); ctx.lineTo(cx, trackY - 30); ctx.stroke(); ctx.setLineDash([]);
+  arrow(ctx, cx, vY, cx + v*vs, vY, col, 4);
+  text(ctx, `速度 v = ${fmt(v,1)} m/s`, cx + (v >= 0 ? -6 : 6), vY - 14, col, v >= 0 ? 'left' : 'right', 12, true);
+  arrow(ctx, cx, aY, cx + b.a*14, aY, C['--acc'], 3);
+  text(ctx, `加速度 a = ${fmt(b.a,1)} m/s²`, cx + (b.a >= 0 ? -6 : 6), aY - 14, C['--acc'], b.a >= 0 ? 'left' : 'right', 12, true);
+  if (Math.abs(v) < 0.08 && b.a !== 0) text(ctx, '一瞬止まる！', cx, trackY - 44, C['--ink'], 'center', 12, true);
+}
+
+/* ---------- グラフ ---------- */
+function drawGraph(cv, cfg){
+  const { ctx, w, h } = fit(cv, 230);
+  const l = 50, r = 14, t = 28, b = 36, pw = w - l - r, ph = h - t - b;
+  let { yMin, yMax } = cfg; if (yMax - yMin < 1e-6){ yMax += 1; yMin -= 1; }
+  const pad = (yMax - yMin)*0.06; yMin -= (yMin < 0 ? pad : 0); yMax += pad;
+  const X = tt => l + tt/cfg.tMax*pw, Y = v => t + (yMax - v)/(yMax - yMin)*ph;
+  text(ctx, cfg.title, l, 12, C['--ink'], 'left', 13, true);
+  // グリッド
+  const sx = niceStep(cfg.tMax, 6), sy = niceStep(yMax - yMin, 5);
+  ctx.lineWidth = 1;
+  for (let tt = 0; tt <= cfg.tMax + 1e-9; tt += sx){
+    ctx.strokeStyle = C['--grid']; ctx.beginPath(); ctx.moveTo(X(tt), t); ctx.lineTo(X(tt), t + ph); ctx.stroke();
+    text(ctx, +tt.toFixed(2) + '', X(tt), t + ph + 12, C['--muted'], 'center', 10);
+  }
+  for (let v = Math.ceil(yMin/sy)*sy; v <= yMax + 1e-9; v += sy){
+    ctx.strokeStyle = C['--grid']; ctx.beginPath(); ctx.moveTo(l, Y(v)); ctx.lineTo(l + pw, Y(v)); ctx.stroke();
+    text(ctx, +v.toFixed(2) + '', l - 6, Y(v), C['--muted'], 'right', 10);
+  }
+  ctx.strokeStyle = C['--muted']; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(l, t); ctx.lineTo(l, t + ph); ctx.stroke();
+  if (yMin <= 0 && yMax >= 0){ ctx.beginPath(); ctx.moveTo(l, Y(0)); ctx.lineTo(l + pw, Y(0)); ctx.stroke(); }
+  text(ctx, 't [s]', l + pw, t + ph + 26, C['--muted'], 'right', 11);
+  text(ctx, cfg.ylabel, l - 44, t - 12, C['--muted'], 'left', 11);
+
+  ctx.save(); ctx.beginPath(); ctx.rect(l, t, pw, ph); ctx.clip();
+  cfg.series.forEach(sr => {
+    const col = C[sr.color], tc = Math.min(state.t, sr.tEnd), N = 80;
+    const path = (t1) => { ctx.beginPath(); for (let i = 0; i <= N; i++){ const tt = t1*i/N; i ? ctx.lineTo(X(tt), Y(sr.f(tt))) : ctx.moveTo(X(tt), Y(sr.f(tt))); } };
+    if (cfg.area && tc > 0){
+      path(tc); ctx.lineTo(X(tc), Y(0)); ctx.lineTo(X(0), Y(0)); ctx.closePath();
+      ctx.globalAlpha = 0.18; ctx.fillStyle = col; ctx.fill(); ctx.globalAlpha = 1;
+    }
+    ctx.strokeStyle = col; ctx.globalAlpha = 0.3; ctx.lineWidth = 2; ctx.setLineDash([2,3]); path(sr.tEnd); ctx.stroke();
+    ctx.setLineDash([]); ctx.globalAlpha = 1; ctx.lineWidth = 3; path(tc); ctx.stroke();
+    if (cfg.tangent){
+      const sl = sr.d(tc), d = cfg.tMax*0.18, y0 = sr.f(tc);
+      ctx.strokeStyle = C['--ink']; ctx.lineWidth = 1.5; ctx.setLineDash([6,4]);
+      ctx.beginPath(); ctx.moveTo(X(tc - d), Y(y0 - sl*d)); ctx.lineTo(X(tc + d), Y(y0 + sl*d)); ctx.stroke(); ctx.setLineDash([]);
+    }
+    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X(tc), Y(sr.f(tc)), 5, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.restore();
+}
+
+/* ---------- 数値表示 ---------- */
+function readout(bs){
+  const vert = isVertical(), q = vert ? 'y' : 'x', A = vert ? 'g' : 'a';
+  return bs.map(b => {
+    const tt = Math.min(state.t, b.tEnd), v = vel(b, tt), x = pos(b, tt);
+    const T = fmt(tt), col = `var(${b.color})`;
+    let lines;
+    if (b.kind === 'free'){
+      lines = [
+        `<span class="f">v = g t</span> = ${fmt(b.a,1)} × ${T} = <b>${fmt(v)} m/s</b>`,
+        `<span class="f">y = ½ g t²</span> = ½ × ${fmt(b.a,1)} × ${T}² = <b>${fmt(x)} m</b>`,
+        `<span class="f">v² = 2 g y</span> → ${fmt(v*v)} = 2 × ${fmt(b.a,1)} × ${fmt(x)} = ${fmt(2*b.a*x)} ✓`];
+    } else {
+      lines = [
+        `<span class="f">v = v₀ + ${A} t</span> = ${fmt(b.v0,1)} + (${fmt(b.a,1)}) × ${T} = <b>${fmt(v)} m/s</b>`,
+        `<span class="f">${q} = v₀ t + ½ ${A} t²</span> = ${fmt(b.v0,1)}×${T} + ½×(${fmt(b.a,1)})×${T}² = <b>${fmt(x)} m</b>`,
+        `<span class="f">v² − v₀² = 2 ${A} ${q}</span> → ${fmt(v*v - b.v0*b.v0)} = ${fmt(2*b.a*x)} ✓`];
+    }
+    let end = '';
+    if (vert) end = `着地まで T = ${fmt(b.tEnd)} s、着地の速さ ${fmt(vel(b,b.tEnd))} m/s`;
+    else {
+      const stop = b.a !== 0 ? -b.v0/b.a : Infinity;
+      end = stop > 0 && stop < b.tEnd ? `t = −v₀/a = ${fmt(stop)} s で止まり、その後は逆向きに動く（最も遠い位置 x = ${fmt(pos(b,stop))} m）` : `表示範囲の端まで ${fmt(b.tEnd)} s`;
+    }
+    return `<div class="body" style="border-color:${col}"><b style="color:${col}">${b.name}</b>　t = <b>${T} s</b><br>${lines.join('<br>')}<br><span style="color:var(--muted)">${end}</span></div>`;
+  }).join('') + (state.mode === 'compare' ? (() => {
+    const [f, d] = bs, tt = Math.min(state.t, f.tEnd, d.tEnd);
+    return `<div class="body" style="border-color:var(--muted)">差（投げ下ろし − 自由落下）　t = ${fmt(tt)} s<br>速度の差 = ${fmt(vel(d,tt) - vel(f,tt))} m/s（いつも v₀ = ${d.v0}）<br>位置の差 = ${fmt(pos(d,tt) - pos(f,tt))} m（= v₀ t = ${fmt(d.v0*tt)}、時間に比例）</div>`;
+  })() : '');
+}
+
+let tableKey = '';
+function table(bs){
+  const tMaxShown = Math.min(state.t, tEndAll(bs));
+  const n = Math.floor(tMaxShown / P.strobe + 1e-9);
+  const key = state.mode + JSON.stringify(P) + n;
+  if (key === tableKey) return; tableKey = key;
+  const q = isVertical() ? 'y' : 'x';
+  let head = '<tr><th>t [s]</th>';
+  bs.forEach(b => head += `<th style="color:var(${b.color})">${q} [m]${bs.length > 1 ? '<br>' + b.name : ''}</th><th style="color:var(${b.color})">Δ${q}</th>` + (bs.length === 1 ? `<th>Δ${q}の増え方</th>` : ''));
+  head += '</tr>';
+  let rows = '';
+  for (let k = 0; k <= n; k++){
+    const tk = k*P.strobe;
+    rows += `<tr><td>${fmt(tk)}</td>`;
+    bs.forEach(b => {
+      if (tk > b.tEnd + 1e-9){ rows += '<td>着地</td><td></td>' + (bs.length === 1 ? '<td></td>' : ''); return; }
+      const x = pos(b, tk);
+      const dx = k ? x - pos(b, tk - P.strobe) : null;
+      const ddx = k > 1 ? dx - (pos(b, tk - P.strobe) - pos(b, tk - 2*P.strobe)) : null;
+      rows += `<td>${fmt(x,3)}</td><td>${dx === null ? '' : fmt(dx,3)}</td>` + (bs.length === 1 ? `<td>${ddx === null ? '' : '+' + fmt(ddx,3).replace('+-','−')}</td>` : '');
+    });
+    rows += '</tr>';
+  }
+  $('#table').innerHTML = head + rows;
+  const w = $('.tablewrap'); w.scrollTop = w.scrollHeight;
+  const a = bs[0].a;
+  $('#tableNote').innerHTML = `Δ${q}（Δt ごとの移動距離）の増え方はいつも ${isVertical() ? 'g' : 'a'}Δt² = ${fmt(a,1)} × ${P.strobe}² = <b>${fmt(a*P.strobe*P.strobe,3)} m</b> で一定。これが「加速度が一定」の証拠です。`;
+}
+
+/* ---------- 解説 ---------- */
+const EXPLAIN = {
+free: `
+<h3>① 自由落下とは</h3>
+<p>静かに手をはなした（<span class="hl">初速度 0</span>）物体が、重力だけを受けて落ちる運動です（空気抵抗は無視）。
+加速度はつねに鉛直下向きに <b>g ≈ 9.8 m/s²</b>。「1 秒ごとに速さが 9.8 m/s ずつ増える」という意味です。</p>
+<div class="formula">
+  <div>v = g t<small>速度</small></div>
+  <div>y = ½ g t²<small>落下距離</small></div>
+  <div>v² = 2 g y<small>時間を含まない式</small></div>
+</div>
+<p>このアプリでは、手をはなした点を原点、<b>下向きを正</b>として y をとっています。</p>
+<h3>ここを見よう</h3>
+<ul>
+  <li><b>ストロボ写真</b>：玉の間隔が下にいくほど広がる → だんだん速くなっている。</li>
+  <li><b>ストロボ記録の表</b>：同じ時間ごとの移動距離 Δy は <span class="hl">1 : 3 : 5 : 7 : …（奇数の比）</span>で増え、Δy の増え方は gΔt² で一定。</li>
+  <li><b>v-t グラフ</b>：原点を通る直線。傾き = g。塗った三角形の面積 ½ × t × gt = ½gt² が落下距離。</li>
+  <li><b>y-t グラフ</b>：放物線。時間が 2 倍なら距離は 4 倍。接線の傾き（破線）がその瞬間の速さ。</li>
+</ul>
+<h3>知っておきたいこと</h3>
+<ul>
+  <li>空気抵抗がなければ、<b>重い物も軽い物も同じように落ちる</b>（質量は式に出てこない）。</li>
+  <li>着地までの時間は <span class="f">T = √(2H/g)</span>。高さ H を 4 倍にしても T は 2 倍にしかならない（スライダーで確かめよう）。</li>
+  <li>「月」ボタンで g を小さくすると、同じ高さでもゆっくり落ちる。</li>
+</ul>`,
+down: `
+<h3>② 鉛直投げ下ろしとは</h3>
+<p>真下に向けて<span class="hl">初速度 v₀ で投げ出した</span>物体の運動。手を離れたあとは重力しかはたらかないので、
+<b>加速度は自由落下と同じ g</b> です。違うのは「スタートのときの速さ」だけ。</p>
+<div class="formula">
+  <div>v = v₀ + g t<small>速度</small></div>
+  <div>y = v₀ t + ½ g t²<small>落下距離</small></div>
+  <div>v² − v₀² = 2 g y<small>時間を含まない式</small></div>
+</div>
+<p>v₀ = 0 にすると自由落下の式にもどります（スライダーで v₀ を 0 にしてみよう）。</p>
+<h3>ここを見よう</h3>
+<ul>
+  <li><b>v-t グラフ</b>：切片が v₀、傾きが g の直線。自由落下のグラフを <b>v₀ だけ上に平行移動</b>した形。</li>
+  <li><b>面積の内訳</b>：落下距離 = 長方形 v₀ t（初速のまま進む分）＋ 三角形 ½ g t²（加速で増えた分）。</li>
+  <li><b>ストロボ記録</b>：最初から間隔が開いているが、Δy の増え方は自由落下と同じ gΔt²。加速度が同じだから。</li>
+</ul>
+<h3>よくある誤解</h3>
+<ul>
+  <li>✗「強く投げると加速度も大きくなる」→ ○ 加速度はいつも g。大きくなるのは初速度だけ。</li>
+  <li>✗「投げた力が物体にはたらき続ける」→ ○ 手を離れた後にはたらく力は重力だけ。</li>
+</ul>`,
+accel: `
+<h3>③ 等加速度直線運動とは</h3>
+<p>一直線上を、<span class="hl">一定の加速度 a</span> で進む運動です。自由落下（v₀ = 0, a = g）や投げ下ろし（a = g）は、
+その「鉛直方向バージョン」の特別な場合です。</p>
+<div class="formula">
+  <div>v = v₀ + a t<small>速度</small></div>
+  <div>x = v₀ t + ½ a t²<small>変位</small></div>
+  <div>v² − v₀² = 2 a x<small>時間を含まない式</small></div>
+</div>
+<p>3 番目の式は、1 番目の式から t = (v − v₀)/a を求めて 2 番目に代入すると導けます。</p>
+<h3>a の向きで運動が変わる</h3>
+<ul>
+  <li><b>a が v₀ と同じ向き（a &gt; 0）</b>：だんだん速くなる。</li>
+  <li><b>a = 0</b>：等速直線運動。x-t グラフは直線、ストロボの間隔は一定。</li>
+  <li><b>a が v₀ と逆向き（a &lt; 0）</b>：減速し、<span class="f">t = −v₀ / a</span> で一瞬止まり、そのあと逆向きに動き出す。
+  「減速 → 停止 → 逆走」ボタンで確かめよう。止まった瞬間も加速度は 0 ではない点に注意。</li>
+</ul>
+<h3>グラフの読み方</h3>
+<ul>
+  <li><b>v-t グラフの傾き = 加速度 a</b>、<b>v-t グラフの面積 = 変位 x</b>（t 軸より下の面積は負の変位）。</li>
+  <li><b>x-t グラフの接線の傾き = 速度 v</b>。止まる瞬間は接線が水平（放物線の頂点）。</li>
+  <li>a &lt; 0 のとき x-t グラフは上に凸、a &gt; 0 のとき下に凸。</li>
+</ul>`,
+compare: `
+<h3>④ 自由落下と投げ下ろしを比べる</h3>
+<p>同じ高さから同時にスタートさせます。赤が自由落下（v₀ = 0）、青が投げ下ろし（初速度 v₀）です。</p>
+<div class="formula">
+  <div>v<sub>投</sub> − v<sub>自</sub> = v₀<small>速度の差：いつも一定</small></div>
+  <div>y<sub>投</sub> − y<sub>自</sub> = v₀ t<small>位置の差：時間に比例</small></div>
+</div>
+<h3>ここを見よう</h3>
+<ul>
+  <li><b>v-t グラフの 2 本の直線は平行</b>。傾き（= 加速度 g）が同じだから。</li>
+  <li>2 つの玉の間隔は、一定の速さ v₀ で開いていく。</li>
+  <li>投げ下ろしの方が先に着地する。着地時刻は y = H を t について解いて
+    <span class="f">T = (−v₀ + √(v₀² + 2gH)) / g</span>。</li>
+  <li>「いまの値」の欄で、速度差と位置差が式どおりになっていることを確認しよう。</li>
+</ul>
+<h3>考えてみよう</h3>
+<ul>
+  <li>自由落下の玉から見ると、投げ下ろしの玉はどう動いて見える？（答え：速さ v₀ の等速運動。加速度の差が 0 だから）</li>
+</ul>`
+};
+
+/* ---------- 公務員試験での出題ポイント ---------- */
+const EXAM_TIPS = {
+free: `
+<h3>📝 公務員試験ではここが出る</h3>
+<ul>
+  <li>数値は g = 9.8 の倍数になるように作られていることが多い。<b>t = 1, 2, 3 s → 落下距離 4.9, 19.6, 44.1 m／速さ 9.8, 19.6, 29.4 m/s</b> を覚えておくと計算が速い。</li>
+  <li>例：高さ 19.6 m から落とす → ½ × 9.8 × t² = 19.6 より t = 2 s、着地の速さ 9.8 × 2 = 19.6 m/s（H = 19.6、g = 9.8 にして確かめよう）。</li>
+  <li>「重い物ほど速く落ちる」という選択肢は ✗（空気抵抗を考えない場合）。</li>
+</ul>`,
+down: `
+<h3>📝 公務員試験ではここが出る</h3>
+<ul>
+  <li>着地までの時間を y の式から求めると 2 次方程式になって面倒。<b>先に v² − v₀² = 2gH で着地の速さ v を出し、t = (v − v₀)/g</b> とすると楽。</li>
+  <li>例：v₀ = 4.9 m/s で投げ下ろす → 1 秒後の落下距離は 4.9 × 1 + 4.9 = 9.8 m。</li>
+  <li>「投げ下ろしは自由落下より加速度が大きい」は ✗。加速度はどちらも g。</li>
+</ul>`,
+accel: `
+<h3>📝 公務員試験ではここが出る</h3>
+<ul>
+  <li><b>止まるまでの時間と距離</b>が定番。v = 0 とおくと t = v₀/|a|、距離 x = v₀²/(2|a|)。</li>
+  <li>例：20 m/s の車が 5 m/s² で減速 → 4 s で止まり、止まるまでに 40 m 進む（v-t グラフの三角形 ½ × 4 × 20）。</li>
+  <li>グラフ問題は「傾き = 加速度」「面積 = 移動距離」の2つだけで解けることが多い。式より先にグラフを描こう。</li>
+</ul>`,
+compare: `
+<h3>📝 公務員試験ではここが出る</h3>
+<ul>
+  <li>同時に動き出した2物体は、加速度が同じなら<b>相手から見ると等速運動</b>。「何秒後に何 m 離れるか」は v₀ × t だけで出せる。</li>
+  <li>「速度の差はだんだん大きくなる」は ✗。差はいつも v₀ で一定。</li>
+</ul>`
+};
+
+/* ---------- UI ---------- */
+const sliders = { H:['m',0], g:['m/s²',1], v0:['m/s',1], u0:['m/s',1], a:['m/s²',1], speed:['×',2] };
+Object.entries(sliders).forEach(([k, [unit, d]]) => {
+  const el = $('#' + k), out = el.nextElementSibling;
+  el.value = P[k];
+  const show = () => out.textContent = `${(+el.value).toFixed(d)} ${unit}`;
+  show();
+  el.addEventListener('input', () => { P[k] = +el.value; show(); if (k !== 'speed') resetT(); });
+});
+$('#strobe').value = P.strobe;
+$('#strobe').addEventListener('change', e => { P.strobe = +e.target.value; tableKey = ''; });
+
+document.querySelectorAll('.presets button').forEach(btn => btn.addEventListener('click', () => {
+  ['u0','a','g'].forEach(k => { if (btn.dataset[k] !== undefined){ P[k] = +btn.dataset[k]; const el = $('#' + k); el.value = P[k]; el.dispatchEvent(new Event('input')); } });
+  resetT(); play(true);
+}));
+
+function setMode(m){
+  state.mode = m;
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  document.querySelectorAll('[data-modes]').forEach(el => el.style.display = el.dataset.modes.split(' ').includes(m) ? '' : 'none');
+  P.strobe = m === 'accel' ? 0.5 : 0.2; $('#strobe').value = P.strobe;
+  $('#sceneTitle').textContent = { free:'自由落下', down:'鉛直投げ下ろし', accel:'等加速度直線運動（水平なレール上の台車）', compare:'自由落下 vs 鉛直投げ下ろし' }[m];
+  $('#explain').innerHTML = EXPLAIN[m] + EXAM_TIPS[m];
+  resetT();
+}
+document.querySelectorAll('#tabs button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+function resetT(){ state.t = 0; play(false); tableKey = ''; }
+function play(on){
+  const end = tEndAll(bodies());
+  if (on && state.t >= end - 1e-9) state.t = 0;
+  state.running = on; state.last = performance.now();
+  $('#play').textContent = on ? '⏸ 一時停止' : '▶ スタート';
+}
+$('#play').addEventListener('click', () => play(!state.running));
+$('#reset').addEventListener('click', resetT);
+$('#step').addEventListener('click', () => {
+  play(false);
+  const end = tEndAll(bodies());
+  state.t = Math.min(end, (Math.floor(state.t / P.strobe + 1e-6) + 1) * P.strobe);
+});
+$('#tSlider').addEventListener('input', e => { play(false); state.t = +e.target.value * tEndAll(bodies()); });
+
+/* ---------- ループ ---------- */
+function frame(now){
+  const bs = bodies(), end = tEndAll(bs);
+  if (state.running){
+    state.t += (now - state.last)/1000 * P.speed;
+    if (state.t >= end){ state.t = end; play(false); }
+  }
+  state.last = now;
+  readColors();
+  isVertical() ? drawVertical(bs) : drawHorizontal(bs);
+
+  const q = isVertical() ? 'y' : 'x';
+  const vs = bs.flatMap(b => [vel(b,0), vel(b,b.tEnd), 0]);
+  const xs = bs.flatMap(b => {
+    const r = [pos(b,0), pos(b,b.tEnd)];
+    if (b.a){ const ts = -b.v0/b.a; if (ts > 0 && ts < b.tEnd) r.push(pos(b,ts)); }
+    return r;
+  });
+  drawGraph($('#gv'), { title:'v-t グラフ（速度 − 時間）', ylabel:'v [m/s]', tMax:end,
+    yMin:Math.min(...vs), yMax:Math.max(...vs), area:true,
+    series: bs.map(b => ({ color:b.color, tEnd:b.tEnd, f:t => vel(b,t), d:() => b.a })) });
+  drawGraph($('#gx'), { title:`${q}-t グラフ（位置 − 時間）`, ylabel:`${q} [m]`, tMax:end,
+    yMin:Math.min(0, ...xs), yMax:Math.max(...xs), tangent:true,
+    series: bs.map(b => ({ color:b.color, tEnd:b.tEnd, f:t => pos(b,t), d:t => vel(b,t) })) });
+
+  $('#readout').innerHTML = readout(bs);
+  table(bs);
+  $('#tSlider').value = end ? state.t / end : 0;
+  $('#tOut').textContent = `${fmt(state.t)} s`;
+  requestAnimationFrame(frame);
+}
+setMode('free');
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
