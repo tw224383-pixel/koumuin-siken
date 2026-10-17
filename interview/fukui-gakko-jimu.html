@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>福井県職員採用Ⅱ種（学校事務）模擬面接</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPMincho:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7F4; --sheet:#FFFFFF; --ink:#1E2227; --graphite:#555B63; --rule:#D9DBD6;
+  --omr:#C9414F; --omr-soft:#F6DDE0; --ok:#1C7466; --ok-soft:#DCEFEA; --ng:#B0452A; --ng-soft:#F5E1D9;
+  --serif:"BIZ UDPMincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#16191C; --sheet:#1F2327; --ink:#E8E9E6; --graphite:#A5AAB0; --rule:#343A40;
+    --omr:#E0707B; --omr-soft:#3A2327; --ok:#5DC2B0; --ok-soft:#1D3431; --ng:#E28A6E; --ng-soft:#3B2620;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16191C; --sheet:#1F2327; --ink:#E8E9E6; --graphite:#A5AAB0; --rule:#343A40;
+  --omr:#E0707B; --omr-soft:#3A2327; --ok:#5DC2B0; --ok-soft:#1D3431; --ng:#E28A6E; --ng-soft:#3B2620;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.75;font-size:16px}
+button,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--omr);outline-offset:2px}
+
+.bar{position:sticky;top:0;z-index:20;background:var(--sheet);border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:.8rem;padding:.6rem 1.1rem}
+.bar h1{font-size:.95rem;font-weight:500;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clock{font-variant-numeric:tabular-nums;font-size:1.45rem;font-weight:700}
+.clock.over{color:var(--omr)}
+.progress{font-size:.85rem;color:var(--graphite);font-variant-numeric:tabular-nums;white-space:nowrap}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:6px;padding:.45rem 1rem;cursor:pointer;font-weight:500}
+.btn.primary{background:var(--ink);color:var(--sheet)}
+.btn.small{padding:.3rem .7rem;font-size:.85rem}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+.cover{max-width:42rem;margin:2.5rem auto;padding:2.5rem 2rem;background:var(--sheet);border:1px solid var(--rule)}
+.cover .kind{font-family:var(--serif);font-size:1rem;color:var(--graphite);margin:0}
+.cover h2{font-family:var(--serif);font-size:clamp(2rem,6.5vw,3rem);line-height:1.25;margin:.3rem 0 1.4rem;letter-spacing:.1em}
+.cover dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;margin:0 0 1.6rem;font-size:.95rem}
+.cover dt{color:var(--graphite)}
+.cover dd{margin:0;font-weight:500}
+.notice{border-top:2px solid var(--ink);padding-top:1rem;font-size:.92rem}
+.notice h3{font-size:.95rem;margin:0 0 .4rem}
+.notice ol{margin:0;padding-left:1.4rem}
+.modes{display:grid;gap:.7rem;margin-top:1.6rem}
+.mode{display:flex;align-items:center;gap:1rem;width:100%;text-align:left;border:1.5px solid var(--rule);background:var(--paper);
+  border-radius:8px;padding:.9rem 1.1rem;cursor:pointer}
+.mode:hover{border-color:var(--ink)}
+.mode b{display:block;font-size:1.02rem}
+.mode span{display:block;font-size:.85rem;color:var(--graphite)}
+.mode .go{margin-left:auto;white-space:nowrap;font-weight:700;color:var(--omr)}
+.fine{font-size:.82rem;color:var(--graphite);margin-top:1.3rem}
+.sheetlinks{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+
+.stage{max-width:46rem;margin:0 auto;padding:1.4rem 1.1rem 5rem}
+.qcard{background:var(--sheet);border:1px solid var(--rule);padding:1.6rem 1.4rem}
+.qmeta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;font-size:.82rem;color:var(--graphite);margin-bottom:.9rem}
+.cat{border:1px solid var(--rule);border-radius:999px;padding:.1rem .7rem}
+.star{background:var(--omr-soft);color:var(--omr);border-radius:999px;padding:.1rem .7rem;font-weight:700}
+.qtext{font-family:var(--serif);font-size:1.35rem;line-height:1.85;margin:0}
+.followup{margin-top:1.2rem;border-left:3px solid var(--omr);background:var(--omr-soft);padding:.8rem 1rem;border-radius:0 6px 6px 0}
+.followup .lab{font-size:.78rem;font-weight:700;color:var(--omr);letter-spacing:.05em}
+.followup p{font-family:var(--serif);font-size:1.12rem;margin:.3rem 0 0}
+.saybox{margin-top:1.3rem;border-top:1px dashed var(--rule);padding-top:1rem;font-size:.9rem;color:var(--graphite)}
+.acts{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+details.tips{margin-top:1.2rem;border:1px solid var(--rule);border-radius:6px;background:var(--paper)}
+details.tips summary{cursor:pointer;padding:.6rem .9rem;font-weight:500;font-size:.92rem}
+details.tips .body{padding:0 .9rem .9rem;font-size:.93rem}
+details.tips dt{font-weight:700;font-size:.82rem;color:var(--graphite);margin-top:.5rem}
+details.tips dd{margin:.15rem 0 0}
+.warnline{color:var(--ng);font-weight:500}
+.rate{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem}
+.rate button{border:1.5px solid var(--rule);background:var(--paper);border-radius:999px;padding:.4rem 1.1rem;cursor:pointer;font-weight:500}
+.rate button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+textarea{width:100%;min-height:5.5rem;margin-top:.8rem;padding:.7rem .8rem;border:1px solid var(--rule);border-radius:6px;
+  background:var(--paper);resize:vertical;line-height:1.7}
+.nav{display:flex;justify-content:space-between;gap:.8rem;margin-top:1.4rem}
+
+.result{max-width:46rem;margin:0 auto;padding:1.4rem 1.1rem 5rem}
+.result .box{background:var(--sheet);border:1px solid var(--rule);padding:1.6rem 1.4rem}
+.score{display:flex;gap:1.6rem;flex-wrap:wrap;margin:.8rem 0 1.4rem;font-variant-numeric:tabular-nums}
+.score div{font-size:.85rem;color:var(--graphite)}
+.score b{display:block;font-size:1.9rem;color:var(--ink)}
+.review{border-top:2px solid var(--ink);margin-top:1.2rem;padding-top:1rem}
+.review li{margin-bottom:.9rem}
+.review .qq{font-family:var(--serif);font-size:1.02rem}
+.review .mm{font-size:.88rem;color:var(--graphite);white-space:pre-wrap;border-left:2px solid var(--rule);padding-left:.7rem;margin-top:.3rem}
+.tag{font-size:.78rem;font-weight:700;border-radius:999px;padding:.05rem .6rem;margin-right:.4rem}
+.tag.a{background:var(--ok-soft);color:var(--ok)}
+.tag.b{background:var(--paper);color:var(--graphite);border:1px solid var(--rule)}
+.tag.c{background:var(--ng-soft);color:var(--ng)}
+
+.sheet{max-width:50rem;margin:0 auto;padding:1.4rem 1.1rem 5rem}
+.sheet .page{background:var(--sheet);border:1px solid var(--rule);padding:2rem 1.8rem}
+.sheet h2{font-family:var(--serif);font-size:1.5rem;margin:0 0 .3rem}
+.sheet .lead{font-size:.88rem;color:var(--graphite);margin:0 0 1.4rem}
+.sheet h3{font-size:.95rem;border-bottom:1px solid var(--rule);padding-bottom:.3rem;margin:1.6rem 0 .8rem}
+.sheet ol{padding-left:1.6rem;margin:0}
+.sheet ol li{margin-bottom:.9rem}
+.sheet .qq{font-family:var(--serif);font-size:1.08rem}
+.sheet .tip{font-size:.86rem;color:var(--graphite);margin-top:.2rem}
+.sheet .fu{font-size:.86rem;color:var(--omr);margin-top:.2rem}
+.sheet .line{border-bottom:1px solid var(--rule);height:1.6rem}
+
+.hidden{display:none!important}
+@media print{
+  .bar,.noprint{display:none!important}
+  body{background:#fff;font-size:11.5pt}
+  .sheet,.result{padding:0}
+  .sheet .page,.result .box{border:none;padding:0}
+  .sheet ol li{break-inside:avoid}
+}
+@media (max-width:560px){
+  .cover{margin:1rem auto;padding:1.6rem 1.2rem}
+  .qcard{padding:1.2rem 1rem}
+  .qtext{font-size:1.18rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <h1 id="bartitle">福井県職員採用Ⅱ種（学校事務）模擬面接</h1>
+  <span class="progress" id="progress"></span>
+  <span class="clock" id="clock"></span>
+  <button class="btn small noprint hidden" id="quit">中断</button>
+</div>
+
+<!-- 表紙 -->
+<main class="cover" id="cover">
+  <p class="kind">福井県職員採用Ⅱ種（学校事務）想定</p>
+  <h2>模擬面接</h2>
+  <dl>
+    <dt>収録</dt><dd>全20問（★印5問は本番でほぼ確実に聞かれる質問）</dd>
+    <dt>所要</dt><dd>本番モードで約15分／全問モードで約25分</dd>
+    <dt>進め方</dt><dd>質問が1問ずつ出ます。声に出して答えてから「答え終わった」を押します</dd>
+    <dt>追加質問</dt><dd>★の質問では「それはなぜですか」などの掘り下げが続きます</dd>
+  </dl>
+
+  <div class="notice">
+    <h3>練習のしかた（しっかり読んでから始めてください）</h3>
+    <ol>
+      <li>答えは<strong>1問30秒〜1分</strong>が目安です。結論を先に言う練習をしてください。</li>
+      <li>必ず<strong>声に出して</strong>答えます。頭の中で済ませると、本番で言葉が出てきません。</li>
+      <li>狙いとポイントは<strong>答えた後に</strong>開きます。先に見ると練習になりません。</li>
+      <li>答えたら自分で◎○△をつけます。△が残った質問は、後でもう一度やり直します。</li>
+      <li>最後に「何か質問はありますか」と聞かれます。逆質問も1つ用意しておいてください。</li>
+    </ol>
+  </div>
+
+  <div class="modes" id="modes"></div>
+
+  <div class="sheetlinks noprint">
+    <button class="btn small" data-sheet="q">面接官役用シート（質問だけ）</button>
+    <button class="btn small" data-sheet="full">面接官役用シート（ポイント付き）</button>
+  </div>
+  <p class="fine">自己評価とメモはこの端末だけに保存されます。中断しても続きから再開できます。</p>
+</main>
+
+<!-- 出題 -->
+<main class="stage hidden" id="stage"></main>
+
+<!-- 振り返り -->
+<main class="result hidden" id="result"></main>
+
+<!-- 面接官役用シート -->
+<main class="sheet hidden" id="sheetview"></main>
+
+<script>
+/* ============ 質問データ ============ */
+const QUESTIONS = [
+  {id:1, cat:"A　志望・経歴", star:false,
+   q:"1分程度で自己紹介をお願いします。",
+   aim:"話の組み立て方と第一印象を見ています。",
+   point:"経歴の説明を長くしすぎないことです。「通算約7年半の学校事務の経験」と「正確さ」の2点に絞り、1分で終えます。",
+   fu:["ありがとうございます。いまのお仕事の内容を、もう少し具体的に教えてください。"]},
+  {id:2, cat:"A　志望・経歴", star:true,
+   q:"志望動機を教えてください。現在も学校で働いているのに、なぜ正規職員を目指すのですか。",
+   aim:"「待遇を良くしたいだけでは」という疑いを晴らせるかを見ています。",
+   point:"責任ある立場で、学校運営に関わりたいという話につなげます。",
+   fu:["それはなぜですか。","正規職員になったら、いまの立場ではできない、どんな仕事をしたいですか。"]},
+  {id:3, cat:"A　志望・経歴", star:true,
+   q:"東京都の正規職員を辞めたのはなぜですか。",
+   aim:"辞め方に問題がなかったか、また同じことが起きないかを見ています。",
+   point:"事実を短く話し、前の職場の悪口は言いません。最後は「だから福井で長く勤めたい」で締めます。",
+   fu:["具体的には、どういう状況だったのですか。","同じことが、福井でも起きるとは考えませんか。"]},
+  {id:4, cat:"A　志望・経歴", star:true,
+   q:"なぜ福井県なのですか。長く勤められますか。",
+   aim:"定着性の確認です。",
+   point:"生活の基盤が福井にあることを、具体的に言い切ります。",
+   fu:["具体的には、どういった事情でしょうか。","自宅から遠い学校へ配属されることもありますが、大丈夫ですか。"]},
+  {id:5, cat:"A　志望・経歴", star:true,
+   q:"民間企業2社を、それぞれ数か月で退職していますね。理由を教えてください。採用しても、またすぐ辞めることはありませんか。",
+   aim:"一番の懸念点です。答えの最後の一文で評価が決まります。",
+   point:"「民間を経験して、自分が力を発揮できるのは学校事務だと確信した」という筋で話します。",
+   fu:["学校事務だと確信した、きっかけは何でしたか。","つらいことがあったとき、今度はどう乗り越えるつもりですか。"]},
+  {id:6, cat:"A　志望・経歴", star:false,
+   q:"民間での経験で、学校事務に生かせることは何ですか。",
+   aim:"転職を「回り道」ではなく「収穫」として語れるかを見ています。",
+   point:"",
+   fu:["それを実際に使った場面を、一つ挙げてください。"]},
+  {id:7, cat:"A　志望・経歴", star:false,
+   q:"ライフラインの28歳前後で大きく下がっていますが、何があったのですか。そこからどう立ち直りましたか。",
+   aim:"その2の用紙から必ず聞かれる質問です。5番とセットで準備してください。",
+   point:"",
+   fu:["立ち直るうえで、いちばん支えになったものは何でしたか。"]},
+  {id:8, cat:"A　志望・経歴", star:false,
+   q:"高校を途中で転校されていますね。",
+   aim:"経緯よりも、本人が前向きに説明できるかを見ています。",
+   point:"家庭の事情などを詳しく話す必要はありません。「〜という事情で転校し、卒業しました」と一言で済ませ、学んだことに話をつなげます。",
+   fu:["その経験から学んだことはありますか。"]},
+
+  {id:9, cat:"B　職務・専門性", star:false,
+   q:"監査でも事務指導でも指摘がなかったそうですが、具体的にどのような確認をしているのですか。",
+   aim:"",
+   point:"根拠資料との突き合わせなど、実際の手順を1つ具体的に話せると強いです。",
+   fu:["それでもミスが起きたときは、どうしていますか。"]},
+  {id:10, cat:"B　職務・専門性", star:false,
+   q:"東京都と福井県で制度の違いに戸惑ったことはありますか。どう対応しましたか。",
+   aim:"自己PRに書いた内容の深掘りです。実際の例を1つ用意しておいてください。",
+   point:"",
+   fu:["どこに確認して、どのように覚えていきましたか。"]},
+  {id:11, cat:"B　職務・専門性", star:false,
+   q:"補助（代替）の立場と正規職員とでは、何が違うと考えていますか。",
+   aim:"",
+   point:"責任の範囲、引継ぎ、学校全体への関わり方の違いを挙げます。",
+   fu:["その違いに、いまの自分は対応できると思いますか。"]},
+  {id:12, cat:"B　職務・専門性", star:false,
+   q:"「事務職員は事務をつかさどる」とされていますが、どういう意味だと理解していますか。",
+   aim:"",
+   point:"平成29年の学校教育法改正で、それまでの「従事する」から「つかさどる」に変わりました。主体的に学校運営に関わる立場になった、という理解で答えます。",
+   fu:["では、あなたなら主体的にどんな提案をしますか。"]},
+  {id:13, cat:"B　職務・専門性", star:false,
+   q:"学校財務や就学援助で、具体的にどんなことをしたいですか。共同学校事務室については知っていますか。",
+   aim:"「やってみたい仕事」欄の深掘りです。",
+   point:"",
+   fu:["共同学校事務室の利点は、どこにあると思いますか。"]},
+  {id:14, cat:"B　職務・専門性", star:false,
+   q:"教員の働き方改革に、事務職員としてどう関われると思いますか。",
+   aim:"",
+   point:"事務作業を引き受けることや、学校徴収金の業務を効率化することなどが挙げられます。",
+   fu:["今の職場で、実際にやってみたことはありますか。"]},
+
+  {id:15, cat:"C　人柄", star:false,
+   q:"「頼んだことにすぐ応えてくれる」と言われるそうですが、依頼が重なって手が回らないときはどうしますか。",
+   aim:"",
+   point:"「期限を伝えて引き受ける」という実際の習慣をそのまま答えます。",
+   fu:["それでも間に合わないときは、どうしますか。"]},
+  {id:16, cat:"C　人柄", star:true,
+   q:"あなたの短所を教えてください。",
+   aim:"短所を自覚し、手を打てているかを見ています。",
+   point:"アンケートにあった「サバサバして冷たく見られることがある」か「気を遣いすぎる」のどちらか1つを選びます。それをどう補っているかまで話します。",
+   warn:"「頼まれごとを忘れることがある」は、正確さを売りにしているので避けた方が無難です。",
+   fu:["それで実際に困ったことはありますか。","どう直そうとしているか、具体的に教えてください。"]},
+  {id:17, cat:"C　人柄", star:false,
+   q:"年上の先生や管理職の誤りに気づいたら、どう伝えますか。相手が納得しなかったらどうしますか。",
+   aim:"「まっすぐ」が、角の立つ言い方にならないかを見ています。",
+   point:"",
+   fu:["それでも直してもらえないときは、どうしますか。"]},
+
+  {id:18, cat:"D　場面対応・時事", star:false,
+   q:"保護者から、学校徴収金や就学援助のことで強い口調の電話がかかってきたら、どう対応しますか。",
+   aim:"",
+   point:"まず話を聴くこと、事実を確認すること、管理職と共有すること、の順番を守ります。",
+   fu:["その場で答えられないことを聞かれたら、どうしますか。"]},
+  {id:19, cat:"D　場面対応・時事", star:false,
+   q:"大雨などの災害時、学校事務職員として何ができると思いますか。",
+   aim:"時事問題欄の深掘りです。書いた3点（施設備品の管理、保護者への連絡体制、被災家庭への就学援助の案内）を言えるようにしておきます。",
+   point:"",
+   fu:["そのうち、いちばん先にやるべきことはどれですか。"]},
+  {id:20, cat:"D　場面対応・時事", star:false,
+   q:"職場の誰かから、ハラスメントについて相談を受けたらどうしますか。",
+   aim:"",
+   point:"話を受け止めること、秘密を守ること、一人で抱えずに管理職や窓口につなぐこと、の3点です。",
+   fu:["本人が「誰にも言わないでほしい」と言ったら、どうしますか。"]},
+];
+
+/** 最後に必ず聞かれる逆質問。採点の対象にはしない */
+const CLOSING = {
+  id:0, cat:"しめくくり", star:false,
+  q:"最後に、何か質問はありますか。",
+  aim:"入庁後を具体的に考えているかを見ています。「特にありません」は避けます。",
+  point:"待遇の話ではなく、仕事の中身を1つ聞きます。例：「採用後、共同学校事務室の業務にはどのくらい関わることになりますか」。",
+  fu:[]
+};
+
+const MODES = [
+  {id:"honban", name:"本番モード（おすすめ）", desc:"★5問＋ランダム5問の全10問。追加質問つきで、本番に近い流れで進みます", size:10},
+  {id:"all",    name:"全20問モード",          desc:"書類に沿った20問をすべて順番に。通しで声に出す仕上げ練習に", size:20},
+  {id:"star",   name:"★だけ 5問",             desc:"合否を左右する5問だけを、掘り下げの追加質問つきで集中練習", size:5},
+];
+
+/* ============ 状態 ============ */
+const KEY = "fukui-mensetsu-v1";
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = s => Math.floor(s/60) + ":" + String(s%60).padStart(2,"0");
+const byId = id => QUESTIONS.find(x => x.id === id) || (id === 0 ? CLOSING : null);
+
+let state = null;   // {mode, ids:[], idx, step, answers:{id:{ev,memo}}, total, qsec}
+let timer = null;
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function load(){
+  try{
+    const v = JSON.parse(localStorage.getItem(KEY));
+    if(v && Array.isArray(v.ids) && v.ids.length) return v;
+  }catch(e){}
+  return null;
+}
+function clear(){ try{ localStorage.removeItem(KEY); }catch(e){} }
+
+/* ============ 表紙 ============ */
+function paintCover(){
+  const saved = load();
+  $("#modes").innerHTML = MODES.map(m => {
+    const resume = saved && saved.mode === m.id && !saved.done;
+    return '<button class="mode" data-mode="'+m.id+'">'
+      + '<span><b>'+esc(m.name)+'</b><span>'+esc(m.desc)+'</span></span>'
+      + '<span class="go">'+(resume ? "つづきから（"+(saved.idx+1)+"問目）▸" : "はじめる ▸")+'</span>'
+      + '</button>';
+  }).join("");
+  if(saved && saved.done){
+    $("#modes").insertAdjacentHTML("beforeend",
+      '<button class="mode" data-mode="__result"><span><b>前回の振り返りを見る</b>'
+      + '<span>自己評価とメモがそのまま残っています</span></span><span class="go">ひらく ▸</span></button>');
+  }
+}
+
+function pickIds(mode){
+  const stars = QUESTIONS.filter(q => q.star).map(q => q.id);
+  if(mode === "star") return stars;
+  if(mode === "all")  return QUESTIONS.map(q => q.id);
+  const rest = QUESTIONS.filter(q => !q.star).map(q => q.id);
+  for(let i = rest.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [rest[i], rest[j]] = [rest[j], rest[i]]; }
+  const picked = stars.concat(rest.slice(0, 5));
+  return QUESTIONS.filter(q => picked.includes(q.id)).map(q => q.id); // 書類と同じ順に戻す
+}
+
+function start(mode){
+  const saved = load();
+  if(saved && saved.mode === mode && !saved.done){
+    state = saved;
+  }else{
+    state = {mode, ids: pickIds(mode).concat([0]), idx:0, step:0, answers:{}, total:0, qsec:0, done:false};
+  }
+  save(); view("stage"); render(); runTimer();
+}
+
+/* ============ 進行 ============ */
+function view(which){
+  for(const v of ["cover","stage","result","sheetview"]) $("#"+v).classList.toggle("hidden", v !== which);
+  $("#quit").classList.toggle("hidden", which !== "stage");
+  if(which !== "stage"){ stopTimer(); $("#clock").textContent = ""; $("#progress").textContent = ""; }
+  window.scrollTo(0,0);
+}
+function runTimer(){
+  stopTimer();
+  timer = setInterval(() => {
+    state.qsec++; state.total++;
+    paintClock();
+    if(state.qsec % 10 === 0) save();
+  }, 1000);
+  paintClock();
+}
+function stopTimer(){ if(timer){ clearInterval(timer); timer = null; } }
+function paintClock(){
+  const c = $("#clock");
+  c.textContent = fmt(state.qsec);
+  c.classList.toggle("over", state.qsec > 90);
+}
+
+function render(){
+  const id = state.ids[state.idx];
+  const q = byId(id);
+  const last = state.idx === state.ids.length - 1;
+  const ans = state.answers[id] || {ev:"", memo:""};
+  const fuTotal = (q.fu || []).length;
+  const fuShown = Math.min(state.step, fuTotal);
+
+  $("#progress").textContent = (state.idx+1) + " / " + state.ids.length;
+
+  let html = '<div class="qcard">'
+    + '<div class="qmeta"><span class="cat">'+esc(q.cat)+'</span>'
+    + (q.star ? '<span class="star">★ 必ず聞かれる</span>' : '')
+    + (id === 0 ? '' : '<span>書類の質問 '+q.id+'</span>')
+    + '</div>'
+    + '<p class="qtext">'+esc(q.q)+'</p>';
+
+  for(let i = 0; i < fuShown; i++){
+    html += '<div class="followup"><span class="lab">追加の質問 '+(i+1)+'</span><p>'+esc(q.fu[i])+'</p></div>';
+  }
+
+  html += '<div class="saybox">声に出して答えてから、下のボタンを押してください。目安は30秒〜1分です。</div>';
+
+  html += '<div class="acts">';
+  if(fuShown < fuTotal){
+    html += '<button class="btn primary" id="next-fu">答え終わった → 追加の質問へ</button>';
+  }else{
+    html += '<button class="btn primary" id="done-answer" '+(state.step > fuTotal ? 'disabled' : '')+'>答え終わった</button>';
+  }
+  html += '</div>';
+
+  // 答え終わってから、狙い・ポイント・自己評価を出す
+  if(state.step > fuTotal){
+    html += '<details class="tips" open><summary>狙いと、答え方のポイント</summary><div class="body"><dl>'
+      + (q.aim ? '<dt>面接官の狙い</dt><dd>'+esc(q.aim)+'</dd>' : '')
+      + (q.point ? '<dt>答え方のポイント</dt><dd>'+esc(q.point)+'</dd>' : '')
+      + (q.warn ? '<dt>注意</dt><dd class="warnline">'+esc(q.warn)+'</dd>' : '')
+      + '</dl></div></details>';
+
+    if(id !== 0){
+      html += '<div class="rate" role="group" aria-label="自己評価">'
+        + ['◎ 言えた','○ まあまあ','△ 言えなかった'].map(label => {
+            const ev = label[0];
+            return '<button data-ev="'+ev+'" aria-pressed="'+(ans.ev === ev)+'">'+label+'</button>';
+          }).join("")
+        + '</div>'
+        + '<textarea id="memo" placeholder="言えなかった言葉、次に言いたい一言などをメモ（任意）">'+esc(ans.memo)+'</textarea>';
+    }
+  }
+
+  html += '<div class="nav">'
+    + '<button class="btn" id="prev" '+(state.idx === 0 ? 'disabled' : '')+'>← 前の質問</button>'
+    + (state.step > fuTotal
+        ? '<button class="btn primary" id="next">'+(last ? '振り返りを見る' : '次の質問 →')+'</button>'
+        : '<span></span>')
+    + '</div>';
+
+  html += '</div>';
+  $("#stage").innerHTML = html;
+
+  const fub = $("#next-fu"), don = $("#done-answer");
+  if(fub) fub.onclick = () => { state.step++; save(); render(); };
+  if(don) don.onclick = () => { state.step = fuTotal + 1; save(); render(); };
+  $("#prev").onclick = () => go(state.idx - 1);
+  const nx = $("#next"); if(nx) nx.onclick = () => last ? finish() : go(state.idx + 1);
+
+  document.querySelectorAll('.rate button').forEach(b => {
+    b.onclick = () => {
+      const a = state.answers[id] || {ev:"", memo:""};
+      a.ev = (a.ev === b.dataset.ev) ? "" : b.dataset.ev;
+      state.answers[id] = a; save(); render();
+    };
+  });
+  const memo = $("#memo");
+  if(memo) memo.oninput = () => {
+    const a = state.answers[id] || {ev:"", memo:""};
+    a.memo = memo.value; state.answers[id] = a; save();
+  };
+}
+
+function go(i){
+  if(i < 0 || i >= state.ids.length) return;
+  state.idx = i;
+  const q = byId(state.ids[i]);
+  const answered = state.answers[state.ids[i]];
+  state.step = answered ? (q.fu || []).length + 1 : 0; // 一度やった質問は開いたまま戻れる
+  state.qsec = 0;
+  save(); render(); paintClock();
+}
+
+/* ============ 振り返り ============ */
+function finish(){
+  state.done = true; stopTimer(); save();
+  const rows = state.ids.filter(id => id !== 0);
+  const count = ev => rows.filter(id => (state.answers[id]||{}).ev === ev).length;
+  const todo = rows.filter(id => { const e = (state.answers[id]||{}).ev; return e === "△" || e === "○"; });
+
+  let html = '<div class="box">'
+    + '<h2 style="font-family:var(--serif);font-size:1.7rem;margin:0 0 .2rem">模擬面接　おつかれさまでした</h2>'
+    + '<p style="color:var(--graphite);font-size:.9rem;margin:.2rem 0 0">'
+    + MODES.filter(m=>m.id===state.mode).map(m=>esc(m.name)).join("") + '　所要時間 ' + fmt(state.total) + '</p>'
+    + '<div class="score">'
+    + '<div>◎ 言えた<b>'+count("◎")+'</b></div>'
+    + '<div>○ まあまあ<b>'+count("○")+'</b></div>'
+    + '<div>△ 言えなかった<b>'+count("△")+'</b></div>'
+    + '<div>質問数<b>'+rows.length+'</b></div>'
+    + '</div>';
+
+  if(todo.length){
+    html += '<div class="review"><h3 style="margin:0 0 .6rem;font-size:1rem">もう一度やり直す質問</h3><ol>'
+      + todo.map(id => {
+          const q = byId(id), a = state.answers[id] || {};
+          return '<li><span class="tag '+(a.ev === "△" ? "c" : "b")+'">'+a.ev+'</span>'
+            + '<span class="qq">'+esc(q.q)+'</span>'
+            + (a.memo ? '<div class="mm">'+esc(a.memo)+'</div>' : '')
+            + (q.point ? '<div class="mm">ポイント：'+esc(q.point)+'</div>' : '')
+            + '</li>';
+        }).join("")
+      + '</ol></div>';
+  }else{
+    html += '<div class="review"><p style="margin:0">すべて◎でした。この調子で、別のモードでも通して練習しておきましょう。</p></div>';
+  }
+
+  const memos = state.ids.filter(id => (state.answers[id]||{}).memo);
+  if(memos.length){
+    html += '<div class="review"><h3 style="margin:0 0 .6rem;font-size:1rem">メモの一覧</h3><ol>'
+      + memos.map(id => '<li><span class="qq">'+esc(byId(id).q)+'</span><div class="mm">'+esc(state.answers[id].memo)+'</div></li>').join("")
+      + '</ol></div>';
+  }
+
+  html += '<div class="acts noprint" style="margin-top:1.6rem">'
+    + '<button class="btn primary" id="again">同じモードでもう一度</button>'
+    + '<button class="btn" id="toprint">この振り返りを印刷</button>'
+    + '<button class="btn" id="tocover">モードを選びなおす</button>'
+    + '</div></div>';
+
+  $("#result").innerHTML = html;
+  view("result");
+  $("#again").onclick = () => { const m = state.mode; clear(); start(m); };
+  $("#toprint").onclick = () => window.print();
+  $("#tocover").onclick = () => { paintCover(); view("cover"); };
+}
+
+/* ============ 面接官役用シート ============ */
+function showSheet(kind){
+  const full = kind === "full";
+  let html = '<div class="page"><h2>模擬面接　面接官役用シート'+(full ? "（ポイント付き）" : "（質問だけ）")+'</h2>'
+    + '<p class="lead">★の質問では、必ず1回は「それはなぜですか」「具体的には？」と追加で聞いてください。'
+    + '答えは1問30秒〜1分が目安です。</p>';
+  let cat = "";
+  html += '<ol>';
+  for(const q of QUESTIONS){
+    if(q.cat !== cat){ cat = q.cat; html += '</ol><h3>'+esc(cat)+'</h3><ol start="'+q.id+'">'; }
+    html += '<li><span class="qq">'+(q.star ? "★ " : "")+esc(q.q)+'</span>';
+    if(full){
+      if(q.aim)   html += '<div class="tip">狙い：'+esc(q.aim)+'</div>';
+      if(q.point) html += '<div class="tip">ポイント：'+esc(q.point)+'</div>';
+      if(q.warn)  html += '<div class="tip">注意：'+esc(q.warn)+'</div>';
+      if((q.fu||[]).length) html += '<div class="fu">追加で聞く：'+q.fu.map(esc).join(' ／ ')+'</div>';
+    }else{
+      html += '<div class="line"></div>';
+    }
+    html += '</li>';
+  }
+  html += '</ol><h3>しめくくり</h3><ol start="21"><li><span class="qq">'+esc(CLOSING.q)+'</span>'
+    + (full ? '<div class="tip">ポイント：'+esc(CLOSING.point)+'</div>' : '<div class="line"></div>')
+    + '</li></ol>';
+  html += '<div class="acts noprint" style="margin-top:2rem">'
+    + '<button class="btn primary" id="printsheet">印刷する</button>'
+    + '<button class="btn" id="sheetback">もどる</button></div></div>';
+  $("#sheetview").innerHTML = html;
+  view("sheetview");
+  $("#printsheet").onclick = () => window.print();
+  $("#sheetback").onclick = () => { paintCover(); view("cover"); };
+}
+
+/* ============ 初期化 ============ */
+document.addEventListener("click", e => {
+  const m = e.target.closest("[data-mode]");
+  if(m){
+    if(m.dataset.mode === "__result"){ state = load(); finish(); }
+    else start(m.dataset.mode);
+    return;
+  }
+  const s = e.target.closest("[data-sheet]");
+  if(s) showSheet(s.dataset.sheet);
+});
+$("#quit").onclick = () => {
+  if(!confirm("中断して、モード選択にもどりますか。\n（ここまでの自己評価とメモは保存されます）")) return;
+  stopTimer(); save(); paintCover(); view("cover");
+};
+window.addEventListener("beforeunload", () => { if(state) save(); });
+paintCover();
+</script>
+</body>
+</html>
