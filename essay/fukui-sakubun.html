@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>福井県 小中学校事務職員 作文試験 練習</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPMincho:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7F4; --sheet:#FFFFFF; --ink:#1E2227; --graphite:#555B63; --rule:#D9DBD6;
+  --omr:#C9414F; --omr-soft:#F6DDE0; --ok:#1C7466; --ok-soft:#DCEFEA; --ng:#B0452A; --ng-soft:#F5E1D9;
+  --serif:"BIZ UDPMincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#16191C; --sheet:#1F2327; --ink:#E8E9E6; --graphite:#A5AAB0; --rule:#343A40;
+    --omr:#E0707B; --omr-soft:#3A2327; --ok:#5DC2B0; --ok-soft:#1D3431; --ng:#E28A6E; --ng-soft:#3B2620;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16191C; --sheet:#1F2327; --ink:#E8E9E6; --graphite:#A5AAB0; --rule:#343A40;
+  --omr:#E0707B; --omr-soft:#3A2327; --ok:#5DC2B0; --ok-soft:#1D3431; --ng:#E28A6E; --ng-soft:#3B2620;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.75;font-size:16px}
+button,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--omr);outline-offset:2px}
+
+.bar{position:sticky;top:0;z-index:20;background:var(--sheet);border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:.7rem;padding:.6rem 1.1rem}
+.bar h1{font-size:.95rem;font-weight:500;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clock{font-variant-numeric:tabular-nums;font-size:1.45rem;font-weight:700}
+.clock.low{color:var(--omr)}
+.count{font-size:.85rem;color:var(--graphite);font-variant-numeric:tabular-nums;white-space:nowrap}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:6px;padding:.45rem 1rem;cursor:pointer;font-weight:500}
+.btn.primary{background:var(--ink);color:var(--sheet)}
+.btn.small{padding:.3rem .75rem;font-size:.85rem}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+.cover{max-width:46rem;margin:2.2rem auto;padding:2.3rem 1.9rem;background:var(--sheet);border:1px solid var(--rule)}
+.cover .kind{font-family:var(--serif);font-size:1rem;color:var(--graphite);margin:0}
+.cover h2{font-family:var(--serif);font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.25;margin:.3rem 0 1.2rem;letter-spacing:.08em}
+.notice{border-top:2px solid var(--ink);padding-top:1rem;font-size:.92rem;margin-bottom:1.4rem}
+.notice h3{font-size:.95rem;margin:0 0 .4rem}
+.notice ol{margin:0;padding-left:1.4rem}
+.setrow{display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center;background:var(--paper);border:1px solid var(--rule);
+  border-radius:8px;padding:.8rem 1rem;margin-bottom:1.4rem;font-size:.9rem}
+.setrow label{display:flex;align-items:center;gap:.5rem}
+select{border:1px solid var(--rule);border-radius:5px;padding:.3rem .5rem;background:var(--sheet)}
+
+.tabs{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.tabs button{border:1.5px solid var(--rule);background:var(--paper);border-radius:999px;padding:.35rem 1rem;cursor:pointer;font-size:.9rem}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+
+.list{display:grid;gap:.7rem}
+.item{display:flex;align-items:flex-start;gap:.9rem;width:100%;text-align:left;border:1.5px solid var(--rule);background:var(--paper);
+  border-radius:8px;padding:.9rem 1.05rem;cursor:pointer}
+.item:hover{border-color:var(--ink)}
+.item .no{font-family:var(--serif);font-size:1.3rem;line-height:1.2;color:var(--omr);min-width:2.1rem}
+.item b{display:block;font-size:1.02rem;font-family:var(--serif)}
+.item .sub{display:block;font-size:.84rem;color:var(--graphite);margin-top:.15rem}
+.item .state{margin-left:auto;white-space:nowrap;font-size:.82rem;font-weight:700;color:var(--omr);align-self:center}
+.item .state.done{color:var(--ok)}
+.fine{font-size:.82rem;color:var(--graphite);margin-top:1.2rem}
+
+.write{max-width:52rem;margin:0 auto;padding:1.3rem 1.1rem 5rem}
+.prompt{background:var(--sheet);border:1px solid var(--rule);padding:1.4rem 1.3rem;margin-bottom:1.1rem}
+.prompt .tag{display:inline-block;font-size:.78rem;border:1px solid var(--rule);border-radius:999px;padding:.05rem .7rem;color:var(--graphite);margin-bottom:.5rem}
+.prompt h2{font-family:var(--serif);font-size:1.35rem;margin:.1rem 0 .9rem;line-height:1.6}
+.prompt .q{font-family:var(--serif);font-size:1.02rem;margin:.55rem 0;padding-left:1.1rem;text-indent:-1.1rem}
+.prompt .rule{font-size:.85rem;color:var(--graphite);border-top:1px dashed var(--rule);margin-top:.9rem;padding-top:.6rem}
+
+details.memo{background:var(--sheet);border:1px solid var(--rule);margin-bottom:1.1rem}
+details.memo summary{cursor:pointer;padding:.6rem .9rem;font-size:.92rem;font-weight:500}
+details.memo .body{padding:0 .9rem .9rem}
+.hintlist{font-size:.88rem;color:var(--graphite);margin:.2rem 0 .6rem;padding-left:1.2rem}
+
+.block{background:var(--sheet);border:1px solid var(--rule);padding:1rem 1.1rem;margin-bottom:1rem}
+.block .head{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;margin-bottom:.5rem}
+.block .head b{font-size:.95rem}
+.block .head .n{font-size:.83rem;color:var(--graphite);font-variant-numeric:tabular-nums;margin-left:auto}
+textarea{width:100%;min-height:11rem;padding:.8rem .9rem;border:1px solid var(--rule);border-radius:6px;background:var(--paper);
+  resize:vertical;line-height:2;font-family:var(--serif);font-size:1.02rem}
+textarea.memoarea{min-height:5.5rem;font-family:var(--sans);font-size:.95rem;line-height:1.7}
+
+.gauge{background:var(--sheet);border:1px solid var(--rule);padding:.9rem 1.1rem;margin-bottom:1rem;font-size:.88rem}
+.gaugebar{height:.65rem;border-radius:999px;background:var(--rule);overflow:hidden;display:flex;margin:.45rem 0 .3rem}
+.gaugebar i{display:block;height:100%}
+.gaugebar i.a{background:var(--ok)}
+.gaugebar i.b{background:var(--omr)}
+.gnote{color:var(--graphite)}
+.gnote.warn{color:var(--omr);font-weight:500}
+.gnote.good{color:var(--ok);font-weight:500}
+
+.checks{background:var(--sheet);border:1px solid var(--rule);padding:1.1rem 1.2rem;margin-bottom:1rem}
+.checks h3{font-size:1rem;margin:0 0 .6rem}
+.checks label{display:flex;gap:.6rem;align-items:flex-start;padding:.3rem 0;font-size:.93rem;cursor:pointer}
+.checks input{margin-top:.45rem}
+.review{background:var(--sheet);border:1px solid var(--rule);padding:1.1rem 1.2rem;margin-bottom:1rem}
+.review h3{font-size:1rem;margin:0 0 .5rem}
+.review dt{font-weight:700;font-size:.83rem;color:var(--graphite);margin-top:.7rem}
+.review dd{margin:.15rem 0 0;font-size:.93rem}
+.review .bad{color:var(--ng)}
+.kw{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
+.kw span{font-size:.8rem;border:1px solid var(--rule);border-radius:999px;padding:.05rem .65rem;color:var(--graphite)}
+.acts{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+
+.sheetview{max-width:48rem;margin:0 auto;padding:1.3rem 1.1rem 5rem}
+.sheetview .page{background:var(--sheet);border:1px solid var(--rule);padding:2rem 1.8rem}
+.sheetview h2{font-family:var(--serif);font-size:1.5rem;margin:0 0 1rem}
+.sheetview .one{break-inside:avoid;border-bottom:1px solid var(--rule);padding-bottom:1rem;margin-bottom:1.2rem}
+.sheetview .one h3{font-family:var(--serif);font-size:1.1rem;margin:0 0 .4rem}
+.sheetview .one p{font-family:var(--serif);font-size:.98rem;margin:.3rem 0;padding-left:1.1rem;text-indent:-1.1rem}
+
+.hidden{display:none!important}
+@media print{
+  .bar,.noprint{display:none!important}
+  body{background:#fff;font-size:11.5pt}
+  .write,.sheetview{padding:0}
+  .block,.prompt,.sheetview .page{border:none;padding:0;margin-bottom:1rem}
+  textarea{border:none;background:#fff;height:auto;min-height:0}
+}
+@media (max-width:560px){
+  .cover{margin:1rem auto;padding:1.5rem 1.1rem}
+  .write{padding:1rem .8rem 4rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <h1 id="bartitle">福井県 小中学校事務職員　作文試験 練習</h1>
+  <span class="count" id="total"></span>
+  <span class="clock" id="clock"></span>
+  <button class="btn small noprint hidden" id="back">一覧へ</button>
+</div>
+
+<!-- 表紙・テーマ一覧 -->
+<main class="cover" id="cover">
+  <p class="kind">福井県職員採用Ⅱ種（小・中学校事務職員）想定</p>
+  <h2>作文、頑張れよ</h2>
+
+  <div class="notice">
+    <h3>出題の型（過去5年、ずっと同じです）</h3>
+    <ol>
+      <li>テーマが1つ示され、<strong>（１）考え・経験</strong>と<strong>（２）職員としてどう活かす・挑戦するか</strong>の2問に答える。</li>
+      <li>必ず「<strong>（１）（２）はおおむね半分ずつの文章量に</strong>」という指示が付く。字数の偏りは減点につながります。</li>
+      <li>（１）には<strong>自分の具体的なエピソード</strong>、（２）には<strong>学校事務職員としての具体的な行動</strong>を書くのが型です。</li>
+      <li>この練習では、（１）と（２）を別の欄に書きます。字数とバランスは自動で出ます。</li>
+    </ol>
+  </div>
+
+  <div class="setrow noprint">
+    <label>制限時間
+      <select id="minutes">
+        <option value="45">45分</option>
+        <option value="60" selected>60分</option>
+        <option value="90">90分</option>
+        <option value="0">はからない</option>
+      </select>
+    </label>
+    <label>目標字数
+      <select id="target">
+        <option value="600">600字</option>
+        <option value="800" selected>800字</option>
+        <option value="1000">1000字</option>
+      </select>
+    </label>
+    <span class="gnote">※ 本番の時間・字数は受験案内で確認してください</span>
+  </div>
+
+  <div class="tabs noprint" role="tablist">
+    <button role="tab" data-tab="yosou" aria-selected="true">今年の予想テーマ 10本</button>
+    <button role="tab" data-tab="kako" aria-selected="false">過去問 5年分</button>
+  </div>
+
+  <div class="list" id="list"></div>
+
+  <div class="acts noprint">
+    <button class="btn small" id="printthemes">テーマを印刷（手書き練習用）</button>
+    <button class="btn small" id="clearall">書いたものを全部消す</button>
+  </div>
+  <p class="fine">書いた作文は、この端末だけに自動保存されます。閉じても続きから書けます。</p>
+</main>
+
+<!-- 執筆 -->
+<main class="write hidden" id="write"></main>
+
+<!-- テーマ印刷 -->
+<main class="sheetview hidden" id="sheetview"></main>
+
+<script>
+/* ==================== テーマ ==================== */
+/* 過去問（出題のされ方を体に入れるため、原文のまま収録） */
+const KAKO = [
+  {id:"k2025", year:"2025（令和7）年度", title:"若い世代に選ばれるふくいの実現に向けて",
+   q1:"北陸新幹線福井・敦賀開業が実現し、人の交流が活発になる一方、少子高齢化による人口減少が課題となる中、福井県を若い世代にとって魅力的な県にしていくために何が足りないと考えるか、そのように考えるきっかけとなった具体的なエピソードを交えて述べなさい。",
+   q2:"また、（１）で述べた内容を踏まえて、「若い世代に選ばれるふくい」を実現するために、あなたが挑戦してみたいことについて具体的に述べなさい。"},
+  {id:"k2024", year:"2024（令和6）年度", title:"「もっとおもしろい」ふくいの実現に向けて",
+   q1:"福井県では、県民の新しい発想やチャレンジを応援し、ワクワクドキドキの「もっとおもしろい」ふくいをつくることを目指しているが、あなたにとっての「もっとおもしろい」ふくいとはどのようなものか、理由を添えて述べなさい。",
+   q2:"（１）で述べた「もっとおもしろい」ふくいを実現するために、あなたはどのようなことに挑戦してみたいと考えるか、具体的に述べなさい。"},
+  {id:"k2023", year:"2023（令和5）年度", title:"県民から信頼される公務員になるために",
+   q1:"あなたが公務員として県民からの信頼を得るために、大切だと考えることについて具体的に述べなさい。",
+   q2:"（１）で述べた内容をもとに、あなたが福井県職員、小・中学校事務職員として働く中で、県民から信頼を得るためにどのようなことを日々心掛けていきたいと考えるか、あなたのこれまでの経験を踏まえて述べなさい。"},
+  {id:"k2022", year:"2022（令和4）年度", title:"人と協力して成果を得た経験について",
+   q1:"職場や学校で、あなたが同僚や友人と協力し、成果を得た経験を具体的に一つ述べなさい。",
+   q2:"また、その経験を福井県職員、小・中学校事務職員として働く中で、どのように活かしていきたいか述べなさい。"},
+  {id:"k2021", year:"2021（令和3）年度", title:"あなたが目指す職員像について",
+   q1:"あなたが福井県職員、小・中学校事務職員として採用された場合、どのような職員になりたいか述べなさい。",
+   q2:"また、そのためにどのような心構えで仕事に取り組んでいきたいか、これまでの経験を踏まえてあなたの考えを述べなさい。"},
+];
+
+/* 今年度の予想テーマ10本。過去5年と同じ「（１）考え・経験 ＋（２）挑戦したいこと」の形にそろえてある */
+const YOSOU = [
+  {id:"y01", kind:"県政・人口減少", title:"ふるさと福井で働き、暮らし続けてもらうために",
+   q1:"若い世代が進学や就職を機に県外へ出て行く一方で、福井に戻り、住み続ける人もいる。あなたは、若い世代が福井で働き暮らし続けるために何が必要だと考えるか、そう考えるきっかけとなった具体的なエピソードを交えて述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、福井県職員、小・中学校事務職員として、あなたが挑戦してみたいことについて具体的に述べなさい。",
+   aim:"2025年度と同じ人口減少の系統です。出題側が見たいのは県政への意見ではなく、「自分の体験から考えたか」「職員として何をするか」。",
+   must:["県外に出た人・戻ってきた人など、身近で見聞きした具体例を一つ","「仕事がない」で終わらせず、暮らしやすさ・子育て・住まいなど複数の視点","（２）は学校事務職員の仕事に引き寄せる（保護者負担の軽減、地域と学校のつながりなど）"],
+   bad:"県の施策を並べるだけで、自分の経験と行動が出てこない書き方。（２）が「頑張りたい」で終わるのも弱い。",
+   kw:["人口減少","UIターン","共働き率の高さ","子育て支援","地域とのつながり"]},
+
+  {id:"y02", kind:"県政・新幹線", title:"北陸新幹線がもたらした変化を、地域の力に変えるために",
+   q1:"北陸新幹線の福井・敦賀開業から時間が経ち、県内では観光客の増加などの変化が生まれている。あなたは、この変化を一時的なものに終わらせないために何が必要だと考えるか、具体的なエピソードを交えて述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、福井県職員、小・中学校事務職員として、あなたが挑戦してみたいことについて具体的に述べなさい。",
+   aim:"開業の効果を「続ける」ための視点を見ています。観光の話で終わらず、県民の暮らしや子どもたちの学びにどうつなげるかまで書けるかどうか。",
+   must:["開業後に自分が実際に見た・感じた変化を一つ","にぎわいが一部の地域・時期にとどまる課題にも触れる","（２）では、子どもたちが地元を知る機会づくりなど、学校に関わる形で書く"],
+   bad:"観光パンフレットのような紹介文になり、「あなたが何をするか」が消えてしまう書き方。",
+   kw:["交流人口","関係人口","二次交通","地域の魅力を子どもに伝える","ふるさと教育"]},
+
+  {id:"y03", kind:"県政・子育て", title:"子育てしやすいふくいを、さらに前へ",
+   q1:"福井県は共働き率が高く、子育てしやすい県といわれる一方で、子育て世帯には依然として負担や不安もある。あなたは子育てしやすい県であるために何が足りないと考えるか、具体的なエピソードを交えて述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、福井県職員、小・中学校事務職員として、あなたが挑戦してみたいことについて具体的に述べなさい。",
+   aim:"学校事務職員にいちばん引き寄せやすいテーマです。就学援助・学校徴収金という自分の担当業務に直結させられるかを見ています。",
+   must:["保護者の経済的・時間的な負担について、見聞きした具体例","制度があっても知られていない・使いにくいという視点","（２）は就学援助の案内の工夫、学校徴収金の見直し、キャッシュレス化など具体的に"],
+   bad:"「子育て支援を充実させるべきだ」という一般論で終わること。自分の窓口業務の話に落とすと一気に強くなる。",
+   kw:["就学援助","学校徴収金","保護者負担の軽減","共働き","情報が届く工夫"]},
+
+  {id:"y04", kind:"学校・学び", title:"子どもたちの学びを支える学校事務職員として",
+   q1:"学校では、子どもたちの学びを支えるために多くの人が関わっている。あなたは、子どもの学びを支えるうえで大切だと考えることについて、具体的なエピソードを交えて述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、小・中学校事務職員として、あなたが挑戦してみたいことについて具体的に述べなさい。",
+   aim:"「事務職員は事務をつかさどる」（平成29年の学校教育法改正）を踏まえ、主体的に学校運営に関わる姿勢があるかを見ています。",
+   must:["教材・設備・予算など、事務の仕事が学びを支えている場面を具体的に","子どもや教員と直接関わった経験があれば一つ","（２）では予算の使い方の工夫、備品整備、共同学校事務室での連携などを挙げる"],
+   bad:"教員がやるべき内容（授業の工夫など）ばかり書いてしまい、事務職員の立場が見えないこと。",
+   kw:["事務をつかさどる","学校財務","教材整備","共同学校事務室","チーム学校"]},
+
+  {id:"y05", kind:"学校・働き方", title:"チーム学校の一員として、学校の働き方を変えるために",
+   q1:"学校現場の多忙化が課題とされている。あなたは、学校で働く人が力を発揮するために何が必要だと考えるか、これまでの経験を踏まえて具体的に述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、小・中学校事務職員として、あなたが挑戦してみたいことについて具体的に述べなさい。",
+   aim:"面接でも必ず聞かれる論点です。「教員の仕事を事務職員が引き受ける」という具体像を持っているかどうか。",
+   must:["多忙さを実際に見た場面を一つ（誰が、どんな作業に追われていたか）","人を増やす以外の方法（仕事の整理、分担の見直し、事務の集約）","（２）は、自分が引き受けられる業務を名指しで書く"],
+   bad:"「先生方は大変だと思う」で終わる同情文。改善の主語を自分にすること。",
+   kw:["働き方改革","チーム学校","業務の見える化","学校徴収金の効率化","共同学校事務室"]},
+
+  {id:"y06", kind:"公務員・信頼", title:"県民から信頼され続ける公務員であるために",
+   q1:"公務員は、一つの失敗で信頼を失うことがある。あなたは、県民からの信頼を守り続けるために大切だと考えることについて、具体的なエピソードを交えて述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、福井県職員、小・中学校事務職員として、あなたが日々心掛けていきたいことについて具体的に述べなさい。",
+   aim:"2023年度の再出題に近い形です。公金・個人情報を扱う立場としての自覚があるかを見ています。",
+   must:["正確さ、期限、丁寧な説明のいずれかで、自分が実際にやっている工夫","ミスを隠さず報告した経験があれば強い","（２）は「ダブルチェック」「根拠資料との突き合わせ」など手順まで書く"],
+   bad:"「誠実に対応します」といった心構えだけの作文。やっている手順を一つ書くと具体性が出る。",
+   kw:["公金の管理","個人情報の取扱い","ダブルチェック","報告・連絡・相談","説明責任"]},
+
+  {id:"y07", kind:"防災・安全", title:"災害に強い地域と学校をつくるために",
+   q1:"近年、地震や豪雨、大雪などの災害が各地で起きている。あなたは、災害に備えるうえで大切だと考えることについて、具体的なエピソードを交えて述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、福井県職員、小・中学校事務職員として、あなたが挑戦してみたいことについて具体的に述べなさい。",
+   aim:"学校は避難所になります。事務職員が施設・備品・連絡を担っていることを知っているかを見ています。",
+   must:["自分や家族が災害に備えて実際にしていること","学校が避難所になるという視点","（２）は施設備品の点検、保護者への連絡体制、被災家庭への就学援助の案内の3点が書きやすい"],
+   bad:"防災の一般論だけで、学校・事務職員の役割が出てこないこと。",
+   kw:["避難所となる学校","施設・備品の管理","連絡体制","就学援助","日頃の点検"]},
+
+  {id:"y08", kind:"デジタル", title:"デジタルを活かして、県民に届く行政サービスをつくるために",
+   q1:"行政や学校でもデジタル化が進んでいるが、便利になった面と、使いこなせず取り残される人がいるという面がある。あなたはデジタル化を進めるうえで大切だと考えることについて、具体的なエピソードを交えて述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、福井県職員、小・中学校事務職員として、あなたが挑戦してみたいことについて具体的に述べなさい。",
+   aim:"「新しいことに取り組めるか」と「使う人への目配りがあるか」の両方を見ています。",
+   must:["デジタル化で助かった経験と、戸惑った人を見た経験の両方","紙も残す、声をかけるなど、取り残さない工夫","（２）は校務のペーパーレス化、学校徴収金のキャッシュレス化、様式の見直しなど"],
+   bad:"「DXを推進したい」と言葉だけ借りてしまうこと。自分の手元の業務で何を変えるかを書く。",
+   kw:["デジタル化","ペーパーレス","キャッシュレス","誰も取り残さない","様式の見直し"]},
+
+  {id:"y09", kind:"多様性・共生", title:"誰もが安心して過ごせる学校・職場をつくるために",
+   q1:"学校や職場には、年齢や立場、国籍、障がいの有無など、さまざまな背景を持つ人がいる。あなたは、誰もが安心して過ごせる場をつくるために大切だと考えることについて、具体的なエピソードを交えて述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、福井県職員、小・中学校事務職員として、あなたが挑戦してみたいことについて具体的に述べなさい。",
+   aim:"人柄と、窓口対応の姿勢を見ています。事務室は、子ども・保護者・教職員の誰もが訪れる場所です。",
+   must:["立場の違う人と関わって、分かり合えた（あるいは難しかった）経験を一つ","相手に合わせて伝え方を変えた工夫","（２）は外国籍の保護者への分かりやすい通知、相談しやすい事務室づくりなど"],
+   bad:"「多様性は大切だ」という総論だけ。具体的な相手と場面を一つ決めて書くこと。",
+   kw:["外国籍の児童生徒・保護者","合理的配慮","分かりやすい通知","相談しやすい雰囲気","ハラスメントのない職場"]},
+
+  {id:"y10", kind:"人物・挑戦", title:"失敗から学び、挑戦し続ける職員であるために",
+   q1:"これまでに、うまくいかなかった経験や、思うようにならなかった経験から学んだことについて、具体的に述べなさい。",
+   q2:"（１）で述べた内容を踏まえ、福井県職員、小・中学校事務職員として、あなたがどのような姿勢で仕事に取り組み、何に挑戦していきたいか述べなさい。",
+   aim:"2021年度（目指す職員像）と2024年度（挑戦）の合わせ技。経歴に転職がある人には、最も書きやすく、最も効くテーマです。",
+   must:["失敗の中身よりも、そこからどう立て直したかを厚く書く","人のせいにしない。事実を短く、学びを長く","（２）では「だから学校事務で長く働きたい」という一本の線を通す"],
+   bad:"失敗の説明が長くなり、学びと今後が薄くなること。配分は失敗3：学び7。",
+   kw:["失敗からの学び","立て直した工夫","長く勤める","挑戦","学び続ける姿勢"]},
+];
+
+/* ==================== 状態 ==================== */
+const KEY = "fukui-sakubun-v1";
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = s => (s < 0 ? "-" : "") + Math.floor(Math.abs(s)/60) + ":" + String(Math.abs(s)%60).padStart(2,"0");
+/** 原稿用紙のマス目に近づけるため、改行と空白は数えない */
+const countChars = t => (t || "").replace(/[\s　]/g, "").length;
+
+const CHECKS = [
+  "（１）と（２）の両方に、はっきり答えている",
+  "（１）に、自分の具体的なエピソードが入っている",
+  "（２）に、学校事務職員としての具体的な行動が入っている",
+  "（１）と（２）の字数が、おおむね半分ずつになっている",
+  "文体が「です・ます」か「である」で統一されている",
+  "一文が長すぎない（だいたい60字以内で切れている）",
+  "書き出しで結論を示し、最後にもう一度まとめている",
+  "誤字脱字・送りがなを読み返して確認した",
+];
+
+let store = loadStore();
+let current = null;   // 書いているテーマ
+let timer = null, remain = 0;
+
+function loadStore(){
+  try{
+    const v = JSON.parse(localStorage.getItem(KEY));
+    if(v && typeof v === "object") return Object.assign({minutes:60, target:800, drafts:{}}, v);
+  }catch(e){}
+  return {minutes:60, target:800, drafts:{}};
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} }
+function themeById(id){ return YOSOU.find(t => t.id === id) || KAKO.find(t => t.id === id); }
+function draftOf(id){
+  if(!store.drafts[id]) store.drafts[id] = {memo:"", a:"", b:"", checks:[], updated:0, done:false};
+  return store.drafts[id];
+}
+
+/* ==================== 一覧 ==================== */
+let tab = "yosou";
+function paintList(){
+  const items = tab === "yosou" ? YOSOU : KAKO;
+  $("#list").innerHTML = items.map((t, i) => {
+    const d = store.drafts[t.id];
+    const n = d ? countChars(d.a) + countChars(d.b) : 0;
+    const state = !d || n === 0 ? "書く ▸" : (d.done ? "提出ずみ "+n+"字 ▸" : "下書き "+n+"字 ▸");
+    return '<button class="item" data-theme="'+t.id+'">'
+      + '<span class="no">'+(tab === "yosou" ? String(i+1).padStart(2,"0") : "過")+'</span>'
+      + '<span><b>'+esc(t.title)+'</b>'
+      + '<span class="sub">'+esc(tab === "yosou" ? t.kind : t.year)+'</span></span>'
+      + '<span class="state'+(d && d.done ? " done" : "")+'">'+state+'</span>'
+      + '</button>';
+  }).join("");
+  $("#minutes").value = String(store.minutes);
+  $("#target").value = String(store.target);
+}
+
+/* ==================== 執筆 ==================== */
+function open(id){
+  current = themeById(id);
+  if(!current) return;
+  const d = draftOf(id);
+  const isKako = !!current.year;
+
+  let html = '<div class="prompt">'
+    + '<span class="tag">'+esc(isKako ? current.year + "　実際に出題されたテーマ" : "予想テーマ　" + current.kind)+'</span>'
+    + '<h2>「'+esc(current.title)+'」</h2>'
+    + '<p class="q">（１）'+esc(current.q1)+'</p>'
+    + '<p class="q">（２）'+esc(current.q2)+'</p>'
+    + '<p class="rule">※ （１）（２）について、おおむね半分ずつの文章量となるようにしてください。</p>'
+    + '</div>';
+
+  html += '<details class="memo"><summary>書き出す前に（構成メモ・3分）</summary><div class="body">'
+    + '<ul class="hintlist">'
+    + '<li>（１）の結論を一文で　→　その根拠になる自分の体験を一つ</li>'
+    + '<li>（２）でやること　→　なぜそれができるのか（経験とつなげる）</li>'
+    + '<li>最後の一文を先に決めておくと、時間切れでも形になります</li>'
+    + '</ul>'
+    + '<textarea class="memoarea" id="memo" placeholder="骨子をメモ（採点されません）">'+esc(d.memo)+'</textarea>'
+    + '</div></details>';
+
+  html += '<div class="block"><div class="head"><b>（１）の答え</b><span class="n" id="na"></span></div>'
+    + '<textarea id="ta" placeholder="ここに（１）の答えを書きます">'+esc(d.a)+'</textarea></div>';
+  html += '<div class="block"><div class="head"><b>（２）の答え</b><span class="n" id="nb"></span></div>'
+    + '<textarea id="tb" placeholder="ここに（２）の答えを書きます">'+esc(d.b)+'</textarea></div>';
+
+  html += '<div class="gauge"><div id="gtext"></div>'
+    + '<div class="gaugebar"><i class="a" id="ga"></i><i class="b" id="gb"></i></div>'
+    + '<div class="gnote" id="gnote"></div></div>';
+
+  html += '<div class="checks noprint"><h3>提出前のセルフチェック</h3>'
+    + CHECKS.map((c, i) => '<label><input type="checkbox" data-check="'+i+'" '+(d.checks.includes(i) ? "checked" : "")+'><span>'+esc(c)+'</span></label>').join("")
+    + '</div>';
+
+  html += '<div class="acts noprint">'
+    + '<button class="btn primary" id="finish">書き終わった（講評のポイントを見る）</button>'
+    + '<button class="btn" id="print">印刷する</button>'
+    + '<button class="btn" id="copy">文章をコピー</button>'
+    + '<button class="btn" id="reset">この作文を消す</button>'
+    + '</div>';
+
+  html += '<div id="reviewbox"></div>';
+
+  $("#write").innerHTML = html;
+  view("write");
+  $("#bartitle").textContent = current.title;
+
+  $("#memo").oninput = e => { d.memo = e.target.value; touch(); };
+  $("#ta").oninput = () => { d.a = $("#ta").value; touch(); paintGauge(); };
+  $("#tb").oninput = () => { d.b = $("#tb").value; touch(); paintGauge(); };
+  document.querySelectorAll("[data-check]").forEach(cb => {
+    cb.onchange = () => {
+      const i = Number(cb.dataset.check);
+      d.checks = cb.checked ? [...new Set([...d.checks, i])] : d.checks.filter(x => x !== i);
+      touch();
+    };
+  });
+  $("#finish").onclick = () => { d.done = true; touch(); paintReview(); };
+  $("#print").onclick = () => window.print();
+  $("#copy").onclick = async () => {
+    const text = "「"+current.title+"」\n\n（１）\n"+d.a+"\n\n（２）\n"+d.b;
+    try{ await navigator.clipboard.writeText(text); $("#copy").textContent = "コピーしました"; }
+    catch(e){ $("#copy").textContent = "コピーできませんでした"; }
+    setTimeout(() => { $("#copy").textContent = "文章をコピー"; }, 1600);
+  };
+  $("#reset").onclick = () => {
+    if(!confirm("この作文（メモ・本文・チェック）を消します。よろしいですか。")) return;
+    delete store.drafts[current.id]; save(); open(current.id);
+  };
+
+  paintGauge();
+  if(d.done) paintReview();
+  startTimer();
+}
+
+function touch(){ const d = draftOf(current.id); d.updated = Date.now(); save(); }
+
+function paintGauge(){
+  const d = draftOf(current.id);
+  const a = countChars(d.a), b = countChars(d.b), n = a + b, target = store.target;
+  $("#na").textContent = a + "字";
+  $("#nb").textContent = b + "字";
+  $("#total").textContent = n + " / " + target + "字";
+  $("#gtext").innerHTML = "合計 <b>"+n+"</b> 字（目標 "+target+"字）　（１）"+a+"字 ／ （２）"+b+"字";
+  const pa = n ? Math.round(a / n * 100) : 50;
+  $("#ga").style.width = pa + "%";
+  $("#gb").style.width = (100 - pa) + "%";
+
+  const notes = [];
+  if(n === 0){ notes.push(["", "まずは（１）から。結論を最初の一文に置きます。"]); }
+  else{
+    if(n < target * 0.8) notes.push(["warn", "あと"+(target - n)+"字ほど。8割を切ると、内容が薄いと見られます。"]);
+    else if(n > target * 1.1) notes.push(["warn", "書きすぎです。"+(n - target)+"字オーバー。削る候補は説明の重複から。"]);
+    else notes.push(["good", "字数はちょうどよい範囲です。"]);
+    if(a && b){
+      if(pa < 40 || pa > 60) notes.push(["warn", "（１）と（２）の量が偏っています（"+pa+"：" +(100-pa)+ "）。半分ずつが指示です。"]);
+      else notes.push(["good", "（１）と（２）のバランスも指示どおりです（"+pa+"：" +(100-pa)+ "）。"]);
+    }else if(a && !b){ notes.push(["warn", "（２）が空です。半分は（２）に使います。"]); }
+  }
+  $("#gnote").innerHTML = notes.map(x => '<div class="gnote '+x[0]+'">'+x[1]+'</div>').join("");
+}
+
+function paintReview(){
+  const t = current, d = draftOf(t.id);
+  const a = countChars(d.a), b = countChars(d.b), n = a + b;
+  const pa = n ? Math.round(a / n * 100) : 0;
+  const undone = CHECKS.map((c, i) => d.checks.includes(i) ? null : c).filter(Boolean);
+
+  let html = '<div class="review"><h3>読み返すときの観点</h3>';
+  html += '<dl>';
+  if(t.aim)  html += '<dt>このテーマで見られていること</dt><dd>'+esc(t.aim)+'</dd>';
+  if(t.must) html += '<dt>入っているか確かめる点</dt><dd><ul style="margin:.2rem 0;padding-left:1.2rem">'+t.must.map(x => '<li>'+esc(x)+'</li>').join("")+'</ul></dd>';
+  if(t.bad)  html += '<dt>よくある失敗</dt><dd class="bad">'+esc(t.bad)+'</dd>';
+  if(t.kw){  html += '<dt>使えるキーワード</dt><dd><div class="kw">'+t.kw.map(k => '<span>'+esc(k)+'</span>').join("")+'</div></dd>'; }
+  if(!t.aim) html += '<dt>この過去問の読み方</dt><dd>実際に出題された問題です。（１）で自分の体験、（２）で学校事務職員としての行動、という型をそのまま練習してください。</dd>';
+  html += '</dl>';
+
+  html += '<dt>今回の分量</dt><dd>合計'+n+'字（目標'+store.target+'字）／（１）'+a+'字・（２）'+b+'字'
+    + (n ? '（'+pa+'：'+(100-pa)+'）' : '') + '</dd>';
+  html += '<dt>チェックの残り</dt><dd>'
+    + (undone.length ? '<ul style="margin:.2rem 0;padding-left:1.2rem">'+undone.map(x => '<li>'+esc(x)+'</li>').join("")+'</ul>' : 'すべて確認ずみです。清書して、声に出して読み返しましょう。')
+    + '</dd>';
+  html += '</div>';
+  $("#reviewbox").innerHTML = html;
+  $("#reviewbox").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+/* ==================== タイマー ==================== */
+function startTimer(){
+  stopTimer();
+  if(!store.minutes){ $("#clock").textContent = ""; return; }
+  remain = store.minutes * 60;
+  paintClock();
+  timer = setInterval(() => {
+    remain--;
+    paintClock();
+    if(remain === 0){ alert("時間です。ここまでの文章で、最後の一文まで書き切ってください。"); }
+  }, 1000);
+}
+function stopTimer(){ if(timer){ clearInterval(timer); timer = null; } }
+function paintClock(){
+  const c = $("#clock");
+  c.textContent = fmt(remain);
+  c.classList.toggle("low", remain <= 300);
+}
+
+/* ==================== テーマ印刷 ==================== */
+function showThemes(){
+  let html = '<div class="page"><h2>作文試験 練習用テーマ一覧</h2>'
+    + '<p style="font-size:.88rem;color:var(--graphite)">※ （１）（２）について、おおむね半分ずつの文章量となるようにしてください。'
+    + '　目標'+store.target+'字・'+(store.minutes ? store.minutes+"分" : "時間制限なし")+'</p>';
+  html += '<h3 style="margin-top:1.4rem">今年度の予想テーマ</h3>';
+  YOSOU.forEach((t, i) => {
+    html += '<div class="one"><h3>'+(i+1)+'　「'+esc(t.title)+'」<span style="font-size:.8rem;color:var(--graphite)">（'+esc(t.kind)+'）</span></h3>'
+      + '<p>（１）'+esc(t.q1)+'</p><p>（２）'+esc(t.q2)+'</p></div>';
+  });
+  html += '<h3 style="margin-top:1.6rem">過去に出題されたテーマ</h3>';
+  KAKO.forEach(t => {
+    html += '<div class="one"><h3>'+esc(t.year)+'　「'+esc(t.title)+'」</h3>'
+      + '<p>（１）'+esc(t.q1)+'</p><p>（２）'+esc(t.q2)+'</p></div>';
+  });
+  html += '<div class="acts noprint"><button class="btn primary" id="doprint">印刷する</button>'
+    + '<button class="btn" id="sheetback">もどる</button></div></div>';
+  $("#sheetview").innerHTML = html;
+  view("sheetview");
+  $("#doprint").onclick = () => window.print();
+  $("#sheetback").onclick = () => { paintList(); view("cover"); };
+}
+
+/* ==================== 画面切替 ==================== */
+function view(which){
+  for(const v of ["cover","write","sheetview"]) $("#"+v).classList.toggle("hidden", v !== which);
+  $("#back").classList.toggle("hidden", which === "cover");
+  if(which !== "write"){
+    stopTimer();
+    $("#clock").textContent = ""; $("#total").textContent = "";
+    $("#bartitle").textContent = "福井県 小中学校事務職員　作文試験 練習";
+  }
+  window.scrollTo(0,0);
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-theme]");
+  if(t){ open(t.dataset.theme); return; }
+  const tb = e.target.closest("[data-tab]");
+  if(tb){
+    tab = tb.dataset.tab;
+    document.querySelectorAll("[data-tab]").forEach(x => x.setAttribute("aria-selected", String(x === tb)));
+    paintList();
+  }
+});
+$("#back").onclick = () => { paintList(); view("cover"); };
+$("#minutes").onchange = e => { store.minutes = Number(e.target.value); save(); };
+$("#target").onchange = e => { store.target = Number(e.target.value); save(); };
+$("#printthemes").onclick = showThemes;
+$("#clearall").onclick = () => {
+  if(!confirm("書いた作文をすべて消します。よろしいですか。")) return;
+  store.drafts = {}; save(); paintList();
+};
+window.addEventListener("beforeunload", save);
+paintList();
+</script>
+</body>
+</html>
